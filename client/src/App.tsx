@@ -1,5 +1,10 @@
 import "./App.css";
+import { Navbar } from "./components";
 
 export default function App() {
-  return <h1>Shoppingify</h1>;
+  return (
+    <div className="app">
+      <Navbar />
+    </div>
+  );
 }
