@@ -3,4 +3,47 @@
   display: grid;
   grid-template-areas: "nav main";
   grid-template-columns: max-content 1fr;
+  background-color: #fafafe;
+}
+
+.home-page__main {
+  grid-area: main;
+  padding: 30px 12px;
+}
+
+.home-page__title {
+  display: none;
+  font-size: 26px;
+  margin-bottom: 57px;
+  font-weight: 500;
+}
+
+.yellow-text {
+  color: #f9a109;
+}
+
+.home-page__items-category {
+  font-size: 18px;
+  margin-bottom: 18px;
+  font-weight: normal;
+}
+
+.home-page__items-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 140px);
+  flex-wrap: wrap;
+  gap: 25px 18px;
+  margin-bottom: 28px;
+}
+
+@media (min-width: 700px) {
+  .home-page__main {
+    padding: 38px 80px;
+  }
+
+  .home-page__title {
+    display: block;
+    max-width: 450px;
+  }
 }
