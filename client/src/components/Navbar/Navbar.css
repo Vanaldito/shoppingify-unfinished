@@ -22,7 +22,7 @@
   position: relative;
 }
 
-.navbar__link--current::before {
+.navbar__link--active::before {
   content: "";
   display: block;
   height: 100%;

@@ -1,15 +1,21 @@
+import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
 import ShoopingCart from "./ShoppingCart";
 
 export default function Navbar() {
   return (
     <nav className="navbar">
-      <a href="/" className="navbar__logo">
+      <Link to="/" className="navbar__logo">
         <img src="/logo.svg" width={42} height={42} alt="Shoppingify Logo" />
-      </a>
+      </Link>
       <ul className="navbar__links">
         <li>
-          <a className="navbar__link navbar__link--current" href="/">
+          <NavLink
+            className={({ isActive }) =>
+              `navbar__link${isActive ? " navbar__link--active" : ""}`
+            }
+            to="/"
+          >
             <img
               className="navbar__link__image"
               src="/icons/menu.svg"
@@ -17,10 +23,15 @@ export default function Navbar() {
               height={20}
               alt="Menu"
             />
-          </a>
+          </NavLink>
         </li>
         <li>
-          <a className="navbar__link" href="/">
+          <NavLink
+            className={({ isActive }) =>
+              `navbar__link${isActive ? " navbar__link--active" : ""}`
+            }
+            to="/history"
+          >
             <img
               className="navbar__link__image"
               src="/icons/history.svg"
@@ -28,10 +39,15 @@ export default function Navbar() {
               height={20}
               alt="History"
             />
-          </a>
+          </NavLink>
         </li>
         <li>
-          <a className="navbar__link" href="/">
+          <NavLink
+            className={({ isActive }) =>
+              `navbar__link${isActive ? " navbar__link--active" : ""}`
+            }
+            to="/statistics"
+          >
             <img
               className="navbar__link__image"
               src="/icons/statistics.svg"
@@ -39,7 +55,7 @@ export default function Navbar() {
               height={20}
               alt="Statistics"
             />
-          </a>
+          </NavLink>
         </li>
       </ul>
       <ShoopingCart />
