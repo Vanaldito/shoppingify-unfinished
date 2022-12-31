@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { Router } from "express";
 import { isValidEmail, isValidPassword } from "../helpers";
 
@@ -5,7 +6,7 @@ const usersRouter = Router();
 
 const miniDB: { email: string; password: string }[] = [];
 
-usersRouter.post("/register", (req, res) => {
+usersRouter.post("/register", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
@@ -33,9 +34,19 @@ usersRouter.post("/register", (req, res) => {
       .json({ status: 400, error: "Email is already used" });
   }
 
-  miniDB.push({ email: email.trim(), password: password.trim() });
+  const saltRounds = 10;
+  let hashedPassword: string;
+  try {
+    hashedPassword = await bcrypt.hash(password, saltRounds);
+  } catch (err) {
+    console.log(err);
 
-  console.log(miniDB);
+    return res
+      .status(500)
+      .json({ status: 500, error: "Internal server error" });
+  }
+
+  miniDB.push({ email: email.trim(), password: hashedPassword.trim() });
 
   res.json({ status: 200 });
 });
