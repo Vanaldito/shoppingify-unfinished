@@ -1,10 +1,11 @@
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import { Navbar } from "./components";
+import { ItemsPage } from "./pages";
 
 export default function App() {
   return (
-    <div className="app">
-      <Navbar />
-    </div>
+    <Routes>
+      <Route path="/" element={<ItemsPage />} />
+    </Routes>
   );
 }
