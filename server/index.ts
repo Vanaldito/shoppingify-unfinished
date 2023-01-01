@@ -1,6 +1,9 @@
+import dotenv from "dotenv";
 import express from "express";
 import path from "path";
 import { apiRouter } from "./src/routes";
+
+dotenv.config({ path: path.join(__dirname, ".env.local") });
 
 async function main() {
   const app = express();
