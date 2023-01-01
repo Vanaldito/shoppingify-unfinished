@@ -1,10 +1,9 @@
 import bcrypt from "bcrypt";
 import { Router } from "express";
 import { isValidEmail, isValidPassword } from "../helpers";
+import { User } from "../models";
 
 const usersRouter = Router();
-
-const miniDB: { email: string; password: string }[] = [];
 
 usersRouter.post("/register", async (req, res) => {
   const email = req.body.email;
@@ -28,16 +27,10 @@ usersRouter.post("/register", async (req, res) => {
       .json({ status: 400, error: "Please enter a valid password" });
   }
 
-  if (miniDB.some(({ email: existingEmail }) => email === existingEmail)) {
-    return res
-      .status(400)
-      .json({ status: 400, error: "Email is already used" });
-  }
-
   const saltRounds = 10;
   let hashedPassword: string;
   try {
-    hashedPassword = await bcrypt.hash(password, saltRounds);
+    hashedPassword = await bcrypt.hash(password.trim(), saltRounds);
   } catch (err) {
     console.log(err);
 
@@ -46,9 +39,20 @@ usersRouter.post("/register", async (req, res) => {
       .json({ status: 500, error: "Internal server error" });
   }
 
-  miniDB.push({ email: email.trim(), password: hashedPassword.trim() });
+  new User({ email: email.trim(), password: hashedPassword }).save(err => {
+    if (!err) return res.json({ status: 200 });
 
-  res.json({ status: 200 });
+    if (err.errno === 1062)
+      return res
+        .status(400)
+        .json({ status: 400, error: "Email is already used" });
+
+    console.log(err);
+
+    return res
+      .status(500)
+      .json({ status: 500, error: "Internal server error" });
+  });
 });
 
 export default usersRouter;
