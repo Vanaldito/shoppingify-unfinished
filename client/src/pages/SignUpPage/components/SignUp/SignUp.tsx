@@ -19,6 +19,20 @@ export default function SignUp() {
 
   function changePassword(event: React.ChangeEvent<HTMLInputElement>) {
     setPassword(event.target.value);
+
+    if (event.target.value.trim() === "") {
+      return event.target.setCustomValidity("Please fill out this field");
+    }
+
+    if (
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(event.target.value.trim())
+    ) {
+      return event.target.setCustomValidity(
+        "Password must contain at least 8 characters, including UPPER/lowercase and numbers"
+      );
+    }
+
+    event.target.setCustomValidity("");
   }
 
   function submitHandler(event: React.FormEvent<HTMLFormElement>) {
