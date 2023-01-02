@@ -1,11 +1,17 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useFetchAndLoad } from "../../../../hooks";
+import { registerUser } from "../../../../services";
 
 import "./SignUp.css";
 
 export default function SignUp() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+
+  const { loading, callEndpoint } = useFetchAndLoad();
+
+  const navigate = useNavigate();
 
   function changeEmail(event: React.ChangeEvent<HTMLInputElement>) {
     setEmail(event.target.value);
@@ -17,6 +23,27 @@ export default function SignUp() {
 
   function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (loading) return;
+
+    if (password.trim() === "" || email.trim() === "") return;
+    if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email.trim())) return;
+    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password.trim())) return;
+
+    callEndpoint(
+      registerUser({ email: email.trim(), password: password.trim() })
+    )
+      .then(res => {
+        if (res.error) {
+          return console.error(res.error);
+        }
+
+        navigate("/");
+      })
+      .catch(err => console.error(err));
+
+    setPassword("");
+    setEmail("");
   }
 
   return (
@@ -49,7 +76,7 @@ export default function SignUp() {
           />
         </div>
         <button className="sign-up__submit-button" type="submit">
-          Start coding now
+          {loading ? "Loading..." : "Start coding now"}
         </button>
       </form>
       <div className="sign-up__already-a-member">
