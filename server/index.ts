@@ -16,6 +16,10 @@ async function main() {
     res.sendFile(path.join(__dirname, process.env.VEREX_HTML_PATH as string));
   });
 
+  app.get("/sign-up", (_req, res) => {
+    res.sendFile(path.join(__dirname, process.env.VEREX_HTML_PATH as string));
+  });
+
   /* Add your routes here */
 
   if (process.env.VEREX_ENV === "development") {
