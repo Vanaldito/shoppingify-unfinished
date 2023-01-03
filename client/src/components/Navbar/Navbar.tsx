@@ -1,13 +1,12 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { Logo } from "../Logo";
 import "./Navbar.css";
 import ShoppingCart from "./ShoppingCart";
 
 export default function Navbar() {
   return (
     <nav className="navbar">
-      <Link to="/" className="navbar__logo">
-        <img src="/logo.svg" width={42} height={42} alt="Shoppingify Logo" />
-      </Link>
+      <Logo />
       <ul className="navbar__links">
         <li>
           <NavLink
