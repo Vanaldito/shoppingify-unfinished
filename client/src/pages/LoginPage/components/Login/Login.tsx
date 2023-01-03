@@ -47,7 +47,7 @@ export default function SignUp() {
       </form>
       <div className="login__not-account-yet">
         Don&apos;t have an account yet?{" "}
-        <Link className="login__sign-up-link" to="/login">
+        <Link className="login__sign-up-link" to="/sign-up">
           Register
         </Link>
       </div>
