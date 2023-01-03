@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { Router } from "express";
 import { OkPacket } from "mysql";
 import { createAuthToken, isValidEmail, isValidPassword } from "../helpers";
-import { User } from "../models";
+import { User, UserData } from "../models";
 
 const usersRouter = Router();
 
@@ -66,6 +66,72 @@ usersRouter.post("/register", async (req, res) => {
         .json({ status: 500, error: "Internal server error" });
     }
   );
+});
+
+usersRouter.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  if (
+    typeof email !== "string" ||
+    !email.trim() ||
+    !isValidEmail(email.trim())
+  ) {
+    return res.status(400).json({ error: "Please enter a valid email" });
+  }
+
+  if (
+    typeof password !== "string" ||
+    !password.trim() ||
+    !isValidPassword(password.trim())
+  ) {
+    return res
+      .status(400)
+      .json({ status: 400, error: "Please enter a valid password" });
+  }
+
+  User.findByEmail(email.trim(), async (err, result: UserData[]) => {
+    if (err)
+      return res
+        .status(500)
+        .json({ status: 500, error: "Internal server error" });
+
+    if (result.length === 0)
+      return res
+        .status(401)
+        .json({ status: 401, error: "Email or password incorrect" });
+
+    const userInfo = result[0];
+
+    let isCorrectPassword;
+    try {
+      isCorrectPassword = await bcrypt.compare(
+        password.trim(),
+        userInfo.Password
+      );
+    } catch (err) {
+      console.log(err);
+
+      return res
+        .status(500)
+        .json({ status: 500, error: "Internal server error" });
+    }
+
+    if (!isCorrectPassword)
+      return res
+        .status(401)
+        .json({ status: 401, error: "Email or password incorrect" });
+
+    const authToken = createAuthToken(userInfo.Id);
+
+    return res
+      .cookie("auth-token", `Bearer ${authToken}`, {
+        expires: new Date(Date.now() + 8 * 60 * 60 * 1000),
+        secure: true,
+        sameSite: true,
+      })
+      .json({ status: 200 });
+  });
 });
 
 export default usersRouter;
