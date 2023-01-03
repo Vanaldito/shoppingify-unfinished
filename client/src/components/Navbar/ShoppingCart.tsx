@@ -1,6 +1,6 @@
 const productQuantity = 3;
 
-export default function ShoopingCart() {
+export default function ShoppingCart() {
   return (
     <div className="navbar__shopping-cart">
       <img

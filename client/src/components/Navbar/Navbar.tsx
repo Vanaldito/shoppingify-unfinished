@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
-import ShoopingCart from "./ShoppingCart";
+import ShoppingCart from "./ShoppingCart";
 
 export default function Navbar() {
   return (
@@ -58,7 +58,7 @@ export default function Navbar() {
           </NavLink>
         </li>
       </ul>
-      <ShoopingCart />
+      <ShoppingCart />
     </nav>
   );
 }
