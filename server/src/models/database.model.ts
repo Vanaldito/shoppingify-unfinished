@@ -1,8 +1,6 @@
 import { createConnection } from "mysql";
 import processEnv from "../../environment";
 
-console.log(processEnv);
-
 const db = createConnection({
   host: processEnv.MYSQL_HOST as string,
   database: processEnv.MYSQL_NAME as string,
