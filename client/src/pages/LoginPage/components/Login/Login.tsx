@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { EmailField, PasswordField } from "../../../../components";
+import { useFetchAndLoad } from "../../../../hooks";
+import { login } from "../../../../services";
 
 import "./Login.css";
 
@@ -8,16 +10,53 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
+  const { loading, callEndpoint } = useFetchAndLoad();
+
+  const navigate = useNavigate();
+
   function changeEmail(event: React.ChangeEvent<HTMLInputElement>) {
     setEmail(event.target.value);
   }
 
   function changePassword(event: React.ChangeEvent<HTMLInputElement>) {
     setPassword(event.target.value);
+
+    if (event.target.value.trim() === "") {
+      return event.target.setCustomValidity("Please fill out this field");
+    }
+
+    if (
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(event.target.value.trim())
+    ) {
+      return event.target.setCustomValidity(
+        "Password must contain at least 8 characters, including UPPER/lowercase and numbers"
+      );
+    }
+
+    event.target.setCustomValidity("");
   }
 
   function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (loading) return;
+
+    if (password.trim() === "" || email.trim() === "") return;
+    if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email.trim())) return;
+    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password.trim())) return;
+
+    callEndpoint(login({ email: email.trim(), password: password.trim() }))
+      .then(res => {
+        if (res.error) {
+          return console.error(res.error);
+        }
+
+        navigate("/");
+      })
+      .catch(err => console.error(err));
+
+    setPassword("");
+    setEmail("");
   }
 
   return (
