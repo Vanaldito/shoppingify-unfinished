@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FormField } from "../../../../components";
+import { EmailField, PasswordField } from "../../../../components";
 
 import "./Login.css";
 
@@ -25,21 +25,8 @@ export default function SignUp() {
       <h2 className="login__title">Login</h2>
       <form className="login__form" onSubmit={submitHandler}>
         <div className="login__fields">
-          <FormField
-            required={true}
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={changeEmail}
-          />
-          <FormField
-            required={true}
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={changePassword}
-            pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}"
-          />
+          <EmailField email={email} changeEmail={changeEmail} />
+          <PasswordField password={password} changePassword={changePassword} />
         </div>
         <button className="login__submit-button" type="submit">
           Login
