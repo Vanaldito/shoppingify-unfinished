@@ -36,14 +36,14 @@
 
 .sign-up__field:focus-visible {
   border: 1px solid transparent;
-  outline: 2px solid #2f80ed;
+  outline: 2px solid #f9a109;
 }
 
 .sign-up__submit-button {
   text-align: center;
   font-size: 16px;
   padding: 9px 0;
-  background-color: #2f70ed;
+  background-color: #f9a109;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -52,6 +52,7 @@
 
 .sign-up__submit-button:hover {
   background-color: #2e70cd;
+  background-color: #e99109;
 }
 
 .sign-up__already-a-member {
@@ -61,9 +62,9 @@
 
 .sign-up__login-link {
   text-decoration: none;
-  color: #29739d;
+  color: #f9a109;
 }
 
 .sign-up__login-link:hover {
-  color: #194e6c;
+  color: #d98109;
 }
