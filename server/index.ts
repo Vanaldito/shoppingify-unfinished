@@ -1,5 +1,7 @@
+import cookieParser from "cookie-parser";
 import express from "express";
 import path from "path";
+import { protectRoute } from "./src/middleware";
 import { apiRouter } from "./src/routes";
 
 async function main() {
@@ -10,9 +12,10 @@ async function main() {
   }
 
   app.use(express.json());
+  app.use(cookieParser());
   app.use("/api", apiRouter);
 
-  app.get("/", (_req, res) => {
+  app.get("/", protectRoute, (_req, res) => {
     res.sendFile(path.join(__dirname, process.env.VEREX_HTML_PATH as string));
   });
 
