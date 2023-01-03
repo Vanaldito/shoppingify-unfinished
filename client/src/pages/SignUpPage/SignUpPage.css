@@ -2,13 +2,47 @@
   padding: 17px;
 }
 
+.sign-up-page__error {
+  background-color: #ff00002f;
+  color: #8f0000;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  margin: 0 auto 30px;
+}
+
+.sign-up-page__clear-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  font-size: 30px;
+  padding: 5px;
+  width: 25px;
+  height: 25px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: #8f0000;
+  cursor: pointer;
+}
+
 @media (min-width: 500px) {
-  .sign-up-page {
+  .sign-up-page__error {
+    box-sizing: border-box;
+    width: 450px;
+    margin: 20px auto;
+  }
+
+  .sign-up-page__form {
     border: 1px solid #bdbdbd;
     border-radius: 24px;
     box-sizing: border-box;
     padding: 50px;
     width: 450px;
-    margin: 50px auto;
+    margin: 20px auto;
   }
 }

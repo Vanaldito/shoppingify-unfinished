@@ -6,7 +6,11 @@ import { login } from "../../../../services";
 
 import "./Login.css";
 
-export default function SignUp() {
+interface LoginProps {
+  setError: (error: string) => void;
+}
+
+export default function Login({ setError }: LoginProps) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
@@ -48,7 +52,7 @@ export default function SignUp() {
     callEndpoint(login({ email: email.trim(), password: password.trim() }))
       .then(res => {
         if (res.error) {
-          return console.error(res.error);
+          return setError(res.error);
         }
 
         navigate("/");

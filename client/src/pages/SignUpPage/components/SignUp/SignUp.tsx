@@ -6,7 +6,11 @@ import { registerUser } from "../../../../services";
 
 import "./SignUp.css";
 
-export default function SignUp() {
+interface SignUpProps {
+  setError: (error: string) => void;
+}
+
+export default function SignUp({ setError }: SignUpProps) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
@@ -50,7 +54,7 @@ export default function SignUp() {
     )
       .then(res => {
         if (res.error) {
-          return console.error(res.error);
+          return setError(res.error);
         }
 
         navigate("/");
