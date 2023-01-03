@@ -56,8 +56,8 @@ usersRouter.post("/register", async (req, res) => {
 
       if (err.errno === 1062)
         return res
-          .status(400)
-          .json({ status: 400, error: "Email is already used" });
+          .status(409)
+          .json({ status: 409, error: "Email is already used" });
 
       console.log(err);
 
