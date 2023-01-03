@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { Router } from "express";
-import { isValidEmail, isValidPassword } from "../helpers";
+import { OkPacket } from "mysql";
+import { createAuthToken, isValidEmail, isValidPassword } from "../helpers";
 import { User } from "../models";
 
 const usersRouter = Router();
@@ -39,20 +40,32 @@ usersRouter.post("/register", async (req, res) => {
       .json({ status: 500, error: "Internal server error" });
   }
 
-  new User({ email: email.trim(), password: hashedPassword }).save(err => {
-    if (!err) return res.json({ status: 200 });
+  new User({ email: email.trim(), password: hashedPassword }).save(
+    (err, result) => {
+      if (!err) {
+        const authToken = createAuthToken((result as OkPacket).insertId);
 
-    if (err.errno === 1062)
+        return res
+          .cookie("auth-token", `Bearer ${authToken}`, {
+            expires: new Date(Date.now() + 8 * 60 * 60 * 1000),
+            secure: true,
+            sameSite: true,
+          })
+          .json({ status: 200 });
+      }
+
+      if (err.errno === 1062)
+        return res
+          .status(400)
+          .json({ status: 400, error: "Email is already used" });
+
+      console.log(err);
+
       return res
-        .status(400)
-        .json({ status: 400, error: "Email is already used" });
-
-    console.log(err);
-
-    return res
-      .status(500)
-      .json({ status: 500, error: "Internal server error" });
-  });
+        .status(500)
+        .json({ status: 500, error: "Internal server error" });
+    }
+  );
 });
 
 export default usersRouter;
