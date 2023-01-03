@@ -72,7 +72,7 @@ export default function Login({ setError }: LoginProps) {
           <PasswordField password={password} changePassword={changePassword} />
         </div>
         <button className="login__submit-button" type="submit">
-          Login
+          {loading ? "Loading..." : "Login"}
         </button>
       </form>
       <div className="login__not-account-yet">
