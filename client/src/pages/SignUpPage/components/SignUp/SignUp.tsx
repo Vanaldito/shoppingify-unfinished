@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FormField } from "../../../../components";
 import { useFetchAndLoad } from "../../../../hooks";
 import { registerUser } from "../../../../services";
 
@@ -71,16 +72,14 @@ export default function SignUp() {
       </p>
       <form className="sign-up__form" onSubmit={submitHandler}>
         <div className="sign-up__fields">
-          <input
-            className="sign-up__field"
+          <FormField
             required={true}
             type="email"
             placeholder="Email"
             value={email}
             onChange={changeEmail}
           />
-          <input
-            className="sign-up__field"
+          <FormField
             required={true}
             type="password"
             placeholder="Password"

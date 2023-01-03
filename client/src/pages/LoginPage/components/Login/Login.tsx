@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { FormField } from "../../../../components";
 
 import "./Login.css";
 
@@ -24,16 +25,14 @@ export default function SignUp() {
       <h2 className="login__title">Login</h2>
       <form className="login__form" onSubmit={submitHandler}>
         <div className="login__fields">
-          <input
-            className="login__field"
+          <FormField
             required={true}
             type="email"
             placeholder="Email"
             value={email}
             onChange={changeEmail}
           />
-          <input
-            className="login__field"
+          <FormField
             required={true}
             type="password"
             placeholder="Password"
