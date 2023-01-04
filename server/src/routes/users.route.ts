@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { Router } from "express";
 import { OkPacket } from "mysql";
+import { defaultItemList } from "../constants";
 import { createAuthToken, isValidEmail, isValidPassword } from "../helpers";
 import { User, UserData } from "../models";
 
@@ -40,32 +41,35 @@ usersRouter.post("/register", async (req, res) => {
       .json({ status: 500, error: "Internal server error" });
   }
 
-  new User({ email: email.trim(), password: hashedPassword }).save(
-    (err, result) => {
-      if (!err) {
-        const authToken = createAuthToken((result as OkPacket).insertId);
-
-        return res
-          .cookie("auth-token", `Bearer ${authToken}`, {
-            expires: new Date(Date.now() + 8 * 60 * 60 * 1000),
-            secure: true,
-            sameSite: true,
-          })
-          .json({ status: 200 });
-      }
-
-      if (err.errno === 1062)
-        return res
-          .status(409)
-          .json({ status: 409, error: "Email is already used" });
-
-      console.log(err);
+  new User({
+    email: email.trim(),
+    password: hashedPassword,
+    itemsList: defaultItemList,
+    shoppingCart: [],
+  }).save((err, result) => {
+    if (!err) {
+      const authToken = createAuthToken((result as OkPacket).insertId);
 
       return res
-        .status(500)
-        .json({ status: 500, error: "Internal server error" });
+        .cookie("auth-token", `Bearer ${authToken}`, {
+          expires: new Date(Date.now() + 8 * 60 * 60 * 1000),
+          secure: true,
+          sameSite: true,
+        })
+        .json({ status: 200 });
     }
-  );
+
+    if (err.errno === 1062)
+      return res
+        .status(409)
+        .json({ status: 409, error: "Email is already used" });
+
+    console.log(err);
+
+    return res
+      .status(500)
+      .json({ status: 500, error: "Internal server error" });
+  });
 });
 
 usersRouter.post("/login", (req, res) => {
