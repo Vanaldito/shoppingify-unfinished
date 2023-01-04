@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { EmailField, PasswordField } from "../../../../components";
-import { useFetchAndLoad } from "../../../../hooks";
+import { useAuth, useFetchAndLoad } from "../../../../hooks";
 import { login } from "../../../../services";
 
 import "./Login.css";
@@ -15,6 +15,7 @@ export default function Login({ setError }: LoginProps) {
   const [email, setEmail] = useState("");
 
   const { loading, callEndpoint } = useFetchAndLoad();
+  const { setIsLogged } = useAuth();
 
   const navigate = useNavigate();
 
@@ -55,6 +56,7 @@ export default function Login({ setError }: LoginProps) {
           return setError(res.error);
         }
 
+        setIsLogged(true);
         navigate("/");
       })
       .catch(err => console.error(err));
