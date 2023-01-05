@@ -41,4 +41,16 @@ export default class User {
   static findByEmail(email: string, callback?: queryCallback) {
     db.query("SELECT * FROM Users WHERE Email = ?", [email], callback);
   }
+
+  static updateItemsList(
+    userId: number,
+    itemsList: string,
+    callback?: queryCallback
+  ) {
+    db.query(
+      "UPDATE Users SET ItemsList = ? WHERE Id = ?",
+      [itemsList, userId],
+      callback
+    );
+  }
 }
