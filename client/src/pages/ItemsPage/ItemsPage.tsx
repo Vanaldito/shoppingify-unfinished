@@ -3,7 +3,7 @@ import { Navbar, ProtectedRoute } from "../../components";
 import { useFetchAndLoad } from "../../hooks";
 import { ItemsList } from "../../models";
 import { getItemsList } from "../../services";
-import { Item } from "./components";
+import { AddNewItem, Item } from "./components";
 import "./ItemsPage.css";
 
 export default function ItemsPage() {
@@ -49,6 +49,9 @@ export default function ItemsPage() {
             </>
           )}
         </main>
+        <aside className="items-page__aside">
+          <AddNewItem />
+        </aside>
       </div>
     </ProtectedRoute>
   );

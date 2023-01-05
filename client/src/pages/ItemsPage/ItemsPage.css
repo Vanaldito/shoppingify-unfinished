@@ -8,7 +8,7 @@
 
 .items-page__main {
   grid-area: main;
-  padding: 30px 12px;
+  padding: 30px 20px;
 }
 
 .items-page__title {
@@ -37,13 +37,24 @@
   margin-bottom: 28px;
 }
 
+.items-page__aside {
+  grid-area: aside;
+}
+
 @media (min-width: 700px) {
-  .items-page__main {
-    padding: 38px 80px;
+  .items-page {
+    grid-template-areas: "nav main aside";
+    grid-template-columns: max-content 1fr max-content;
   }
 
   .items-page__title {
     display: block;
     max-width: 450px;
+  }
+}
+
+@media (min-width: 900px) {
+  .items-page__main {
+    padding: 38px 80px;
   }
 }
