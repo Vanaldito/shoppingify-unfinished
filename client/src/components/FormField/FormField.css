@@ -1,3 +1,14 @@
+.form-field-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-field-container--focused {
+  color: #f9a109;
+}
+
 .form-field {
   padding: 13px 15px;
   font-size: 16px;
@@ -7,7 +18,7 @@
   width: 100%;
 }
 
-.form-field:focus-visible {
+.form-field--focused {
   border: 1px solid transparent;
   outline: 2px solid #f9a109;
 }
