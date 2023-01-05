@@ -23,10 +23,10 @@ export default function ItemsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="home-page">
+      <div className="items-page">
         <Navbar />
-        <main className="home-page__main">
-          <h1 className="home-page__title">
+        <main className="items-page__main">
+          <h1 className="items-page__title">
             <span className="yellow-text">Shoppingify</span> allows you take
             your shopping list wherever you go
           </h1>
@@ -35,11 +35,11 @@ export default function ItemsPage() {
           ) : (
             <>
               {itemsList?.map(({ category, items }) => (
-                <section className="home-page__items-section" key={category}>
-                  <h2 className="home-page__items-category">{category}</h2>
-                  <ul className="home-page__items-list">
+                <section className="items-page__items-section" key={category}>
+                  <h2 className="items-page__items-category">{category}</h2>
+                  <ul className="items-page__items-list">
                     {items.map(item => (
-                      <li className="home-page__items-list__item" key={item}>
+                      <li className="items-page__items-list__item" key={item}>
                         <Item itemName={item} />
                       </li>
                     ))}
