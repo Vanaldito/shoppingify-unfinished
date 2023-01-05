@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { verifyAuthToken } from "../helpers";
+import { getUserIdFromCookie } from "../helpers";
 
 export default function protectRoute(
   req: Request,
@@ -12,17 +12,11 @@ export default function protectRoute(
     return res.redirect("/login");
   }
 
-  const authToken = authTokenCookie.split(" ")[1];
+  const userId = getUserIdFromCookie(authTokenCookie);
 
-  if (!authToken) {
+  if (!userId) {
     return res.redirect("/login");
   }
 
-  try {
-    verifyAuthToken(authToken);
-
-    next();
-  } catch {
-    return res.redirect("/login");
-  }
+  next();
 }

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { verifyAuthToken } from "../helpers";
+import { getUserIdFromCookie } from "../helpers";
 import { User, UserData } from "../models";
 
 const itemsListRouter = Router();
@@ -13,18 +13,9 @@ itemsListRouter.get("/", (req, res) => {
       .json({ status: 401, error: "User is not authenticated" });
   }
 
-  const authToken = authTokenCookie.split(" ")[1];
+  const userId = getUserIdFromCookie(authTokenCookie);
 
-  if (!authToken) {
-    return res
-      .status(401)
-      .json({ status: 401, error: "User is not authenticated" });
-  }
-
-  let userId: number;
-  try {
-    userId = (verifyAuthToken(authToken) as { userId: number }).userId;
-  } catch {
+  if (!userId) {
     return res
       .status(401)
       .json({ status: 401, error: "User is not authenticated" });
@@ -63,18 +54,9 @@ itemsListRouter.post("/add", (req, res) => {
       .json({ status: 401, error: "User is not authenticated" });
   }
 
-  const authToken = authTokenCookie.split(" ")[1];
+  const userId = getUserIdFromCookie(authTokenCookie);
 
-  if (!authToken) {
-    return res
-      .status(401)
-      .json({ status: 401, error: "User is not authenticated" });
-  }
-
-  let userId: number;
-  try {
-    userId = (verifyAuthToken(authToken) as { userId: number }).userId;
-  } catch {
+  if (!userId) {
     return res
       .status(401)
       .json({ status: 401, error: "User is not authenticated" });

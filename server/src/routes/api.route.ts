@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { verifyAuthToken } from "../helpers";
+import { getUserIdFromCookie } from "../helpers";
 import itemsListRouter from "./itemsList.route";
 import usersRouter from "./users.route";
 
@@ -17,19 +17,13 @@ apiRouter.get("/auth-status", (req, res) => {
     return res.json({ status: 200, data: { authenticated: false } });
   }
 
-  const authToken = authTokenCookie.split(" ")[1];
+  const userId = getUserIdFromCookie(authTokenCookie);
 
-  if (!authToken) {
+  if (!userId) {
     return res.json({ status: 200, data: { authenticated: false } });
   }
 
-  try {
-    verifyAuthToken(authToken);
-
-    res.json({ status: 200, data: { authenticated: true } });
-  } catch {
-    res.json({ status: 200, data: { authenticated: false } });
-  }
+  res.json({ status: 200, data: { authenticated: true } });
 });
 
 export default apiRouter;
