@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getUserIdFromCookie } from "../helpers";
+import { getUserIdFromCookie, insertItemInList } from "../helpers";
 import { User, UserData } from "../models";
 
 const itemsListRouter = Router();
@@ -96,23 +96,9 @@ itemsListRouter.post("/add", (req, res) => {
       result[0].ItemsList
     );
 
-    const categoryIndex = itemsList.findIndex(
-      element =>
-        element.category.toLowerCase() === category.toLowerCase().trim()
-    );
+    const wasInserted = insertItemInList(itemsList, category, name);
 
-    if (categoryIndex === -1) {
-      itemsList.push({
-        category: category.trim(),
-        items: [name.trim()],
-      });
-    } else if (
-      !itemsList[categoryIndex].items.some(
-        element => element.toLowerCase() === name.toLowerCase().trim()
-      )
-    ) {
-      itemsList[categoryIndex].items.push(name.trim());
-    } else {
+    if (!wasInserted) {
       return res
         .status(409)
         .json({ status: 409, error: "Item is already in category" });
