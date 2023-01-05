@@ -8,7 +8,9 @@ itemsListRouter.get("/", (req, res) => {
   const authTokenCookie = req.cookies["auth-token"];
 
   if (!authTokenCookie || typeof authTokenCookie !== "string") {
-    res.status(401).json({ status: 401, error: "User is not authenticated" });
+    return res
+      .status(401)
+      .json({ status: 401, error: "User is not authenticated" });
   }
 
   const authToken = authTokenCookie.split(" ")[1];
