@@ -115,18 +115,21 @@ itemsListRouter.post("/add", (req, res) => {
     );
 
     const categoryIndex = itemsList.findIndex(
-      element => element.category === category.toLowerCase().trim()
+      element =>
+        element.category.toLowerCase() === category.toLowerCase().trim()
     );
 
     if (categoryIndex === -1) {
       itemsList.push({
-        category: category.toLowerCase().trim(),
-        items: [name.toLowerCase().trim()],
+        category: category.trim(),
+        items: [name.trim()],
       });
     } else if (
-      !itemsList[categoryIndex].items.includes(name.toLowerCase().trim())
+      !itemsList[categoryIndex].items.some(
+        element => element.toLowerCase() === name.toLowerCase().trim()
+      )
     ) {
-      itemsList[categoryIndex].items.push(name.toLowerCase().trim());
+      itemsList[categoryIndex].items.push(name.trim());
     } else {
       return res
         .status(409)
