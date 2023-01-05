@@ -34,6 +34,10 @@ export default class User {
     );
   }
 
+  static findById(id: number, callback?: queryCallback) {
+    db.query("SELECT * FROM Users WHERE Id = ?", [id], callback);
+  }
+
   static findByEmail(email: string, callback?: queryCallback) {
     db.query("SELECT * FROM Users WHERE Email = ?", [email], callback);
   }
