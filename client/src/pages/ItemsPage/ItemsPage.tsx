@@ -11,7 +11,7 @@ export default function ItemsPage() {
 
   const { callEndpoint, loading } = useFetchAndLoad();
 
-  useEffect(() => {
+  function loadItemsList() {
     callEndpoint(getItemsList())
       .then(res => {
         if (res.data) {
@@ -19,7 +19,9 @@ export default function ItemsPage() {
         }
       })
       .catch(err => console.error(err));
-  }, []);
+  }
+
+  useEffect(loadItemsList, []);
 
   return (
     <ProtectedRoute>
@@ -50,7 +52,7 @@ export default function ItemsPage() {
           )}
         </main>
         <aside className="items-page__aside">
-          <AddNewItem />
+          <AddNewItem reloadItemsList={loadItemsList} />
         </aside>
       </div>
     </ProtectedRoute>

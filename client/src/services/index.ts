@@ -1,3 +1,4 @@
+export { default as addItemToItemsList } from "./addItemToItemsList.service";
 export { default as getAuthStatus } from "./getAuthStatus.service";
 export { default as getItemsList } from "./getItemsList.service";
 export { default as login } from "./login.service";
