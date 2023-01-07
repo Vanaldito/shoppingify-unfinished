@@ -56,8 +56,12 @@ export default function AddNewItem({
   const categorySuggestions =
     itemsList
       ?.map(value => value.category)
-      .filter(availableCategory =>
-        availableCategory.toLowerCase().includes(category.toLowerCase())
+      .filter(
+        availableCategory =>
+          availableCategory
+            .toLowerCase()
+            .includes(category.toLowerCase().trimLeft()) &&
+          availableCategory.toLowerCase() !== category.toLowerCase().trim()
       ) ?? null;
 
   return (
