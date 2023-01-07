@@ -12,6 +12,8 @@ interface FormFieldProps
 export default function FormField({
   label,
   className,
+  onFocus,
+  onBlur,
   ...props
 }: FormFieldProps) {
   const [isFocused, setIsFocused] = useState(false);
@@ -19,6 +21,18 @@ export default function FormField({
   className = `form-field ${isFocused ? "form-field--focused" : ""} ${
     className ?? ""
   }`.trim();
+
+  function focusHandler(event: React.FocusEvent<HTMLInputElement>) {
+    setIsFocused(true);
+
+    onFocus && onFocus(event);
+  }
+
+  function blurHandler(event: React.FocusEvent<HTMLInputElement>) {
+    setIsFocused(false);
+
+    onBlur && onBlur(event);
+  }
 
   return (
     <label
@@ -28,8 +42,8 @@ export default function FormField({
     >
       {label}
       <input
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        onFocus={focusHandler}
+        onBlur={blurHandler}
         className={className}
         {...props}
       />
