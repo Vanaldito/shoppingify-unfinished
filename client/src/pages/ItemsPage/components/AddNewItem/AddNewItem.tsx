@@ -55,6 +55,7 @@ export default function AddNewItem({ reloadItemsList }: AddNewItemProps) {
             value={name}
             label="Name"
             placeholder="Enter a name"
+            required={true}
           />
           <FormField
             onChange={changeHandler(setNote)}
@@ -73,6 +74,7 @@ export default function AddNewItem({ reloadItemsList }: AddNewItemProps) {
             value={category}
             label="Category"
             placeholder="Enter a category"
+            required={true}
           />
         </div>
         <div className="add-new-item__buttons">
