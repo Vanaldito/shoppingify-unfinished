@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FormField } from "../../../../components";
+import { FormError, FormField } from "../../../../components";
 import { useFetchAndLoad } from "../../../../hooks";
 import { addItemToItemsList } from "../../../../services";
 import "./AddNewItem.css";
@@ -13,6 +13,8 @@ export default function AddNewItem({ reloadItemsList }: AddNewItemProps) {
   const [category, setCategory] = useState("");
   const [note, setNote] = useState("");
   const [image, setImage] = useState("");
+
+  const [error, setError] = useState("");
 
   const { loading, callEndpoint } = useFetchAndLoad();
 
@@ -31,7 +33,7 @@ export default function AddNewItem({ reloadItemsList }: AddNewItemProps) {
 
     callEndpoint(addItemToItemsList({ name, category }))
       .then(res => {
-        if (res.error) console.error(res.error);
+        if (res.error) setError(res.error);
         else reloadItemsList();
       })
       .catch(err => console.error(err));
@@ -46,6 +48,7 @@ export default function AddNewItem({ reloadItemsList }: AddNewItemProps) {
     <div className="add-new-item">
       <h2 className="add-new-item__title">Add a new item</h2>
       <form onSubmit={submitHandler} className="add-new-item__form">
+        {error && <FormError error={error} clearError={() => setError("")} />}
         <div className="add-new-item__form-fields">
           <FormField
             onChange={changeHandler(setName)}
