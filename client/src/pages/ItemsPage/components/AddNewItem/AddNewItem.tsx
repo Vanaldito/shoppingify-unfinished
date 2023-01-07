@@ -1,14 +1,23 @@
 import { useState } from "react";
-import { FormError, FormField } from "../../../../components";
+import {
+  FieldWithSuggestions,
+  FormError,
+  FormField,
+} from "../../../../components";
 import { useFetchAndLoad } from "../../../../hooks";
+import { ItemsList } from "../../../../models";
 import { addItemToItemsList } from "../../../../services";
 import "./AddNewItem.css";
 
 interface AddNewItemProps {
+  itemsList: ItemsList | null;
   reloadItemsList: () => void;
 }
 
-export default function AddNewItem({ reloadItemsList }: AddNewItemProps) {
+export default function AddNewItem({
+  itemsList,
+  reloadItemsList,
+}: AddNewItemProps) {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [note, setNote] = useState("");
@@ -44,6 +53,13 @@ export default function AddNewItem({ reloadItemsList }: AddNewItemProps) {
     setImage("");
   }
 
+  const categorySuggestions =
+    itemsList
+      ?.map(value => value.category)
+      .filter(availableCategory =>
+        availableCategory.toLowerCase().includes(category.toLowerCase())
+      ) ?? null;
+
   return (
     <div className="add-new-item">
       <h2 className="add-new-item__title">Add a new item</h2>
@@ -69,7 +85,9 @@ export default function AddNewItem({ reloadItemsList }: AddNewItemProps) {
             label="Image (optional)"
             placeholder="Enter a note"
           />
-          <FormField
+          <FieldWithSuggestions
+            selectSuggestion={suggestion => setCategory(suggestion)}
+            suggestions={categorySuggestions}
             onChange={changeHandler(setCategory)}
             value={category}
             label="Category"

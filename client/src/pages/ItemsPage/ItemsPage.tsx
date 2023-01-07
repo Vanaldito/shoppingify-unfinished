@@ -52,7 +52,7 @@ export default function ItemsPage() {
           )}
         </main>
         <aside className="items-page__aside">
-          <AddNewItem reloadItemsList={loadItemsList} />
+          <AddNewItem itemsList={itemsList} reloadItemsList={loadItemsList} />
         </aside>
       </div>
     </ProtectedRoute>
