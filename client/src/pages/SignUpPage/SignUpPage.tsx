@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Logo } from "../../components";
+import { FormError, Logo } from "../../components";
 import { SignUp } from "./components";
 
 import "./SignUpPage.css";
@@ -9,17 +9,7 @@ export default function SignUpPage() {
 
   return (
     <div className="sign-up-page">
-      {error && (
-        <div className="sign-up-page__error">
-          {error}
-          <button
-            onClick={() => setError("")}
-            className="sign-up-page__clear-error"
-          >
-            &times;
-          </button>
-        </div>
-      )}
+      {error && <FormError error={error} clearError={() => setError("")} />}
       <div className="sign-up-page__form">
         <Logo />
         <SignUp setError={setError} />

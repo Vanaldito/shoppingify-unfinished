@@ -1,0 +1,36 @@
+.form-error {
+  background-color: #ff00002f;
+  color: #8f0000;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  margin: 0 auto 30px;
+}
+
+.form-error__clear-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  font-size: 30px;
+  padding: 5px;
+  width: 25px;
+  height: 25px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: #8f0000;
+  cursor: pointer;
+}
+
+@media (min-width: 500px) {
+  .form-error {
+    box-sizing: border-box;
+    width: 450px;
+    max-width: 100%;
+    margin: 20px auto;
+  }
+}
