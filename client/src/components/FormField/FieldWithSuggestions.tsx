@@ -43,7 +43,10 @@ export default function FieldWithSuggestions({
   }
 
   function mouseDownHandler(suggestion: string) {
-    return () => selectSuggestion(suggestion);
+    return (event: React.MouseEvent<HTMLLIElement>) => {
+      event?.preventDefault();
+      selectSuggestion(suggestion);
+    };
   }
 
   function keyDownHandler(event: React.KeyboardEvent<HTMLInputElement>) {
