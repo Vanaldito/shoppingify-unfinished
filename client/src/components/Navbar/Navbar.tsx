@@ -3,7 +3,11 @@ import { Logo } from "../Logo";
 import "./Navbar.css";
 import ShoppingCart from "./ShoppingCart";
 
-export default function Navbar() {
+interface NavbarProps {
+  toggleAsideBar: () => void;
+}
+
+export default function Navbar({ toggleAsideBar }: NavbarProps) {
   return (
     <nav className="navbar">
       <Logo />
@@ -57,7 +61,7 @@ export default function Navbar() {
           </NavLink>
         </li>
       </ul>
-      <ShoppingCart />
+      <ShoppingCart toggleAsideBar={toggleAsideBar} />
     </nav>
   );
 }

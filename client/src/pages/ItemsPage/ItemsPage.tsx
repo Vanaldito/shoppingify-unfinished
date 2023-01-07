@@ -7,6 +7,7 @@ import { AddNewItem, Item } from "./components";
 import "./ItemsPage.css";
 
 export default function ItemsPage() {
+  const [displayAsideBar, setDisplayAsideBar] = useState(false);
   const [itemsList, setItemsList] = useState<null | ItemsList>(null);
 
   const { callEndpoint, loading } = useFetchAndLoad();
@@ -25,9 +26,17 @@ export default function ItemsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="items-page">
-        <Navbar />
-        <main className="items-page__main">
+      <div
+        className={`items-page ${
+          displayAsideBar ? "items-page--aside-bar-displayed" : ""
+        }`.trim()}
+      >
+        <Navbar toggleAsideBar={() => setDisplayAsideBar(!displayAsideBar)} />
+        <main
+          className={`items-page__main ${
+            displayAsideBar ? "items-page__main--aside-bar-displayed" : ""
+          }`.trim()}
+        >
           <h1 className="items-page__title">
             <span className="yellow-text">Shoppingify</span> allows you take
             your shopping list wherever you go
@@ -51,7 +60,11 @@ export default function ItemsPage() {
             </>
           )}
         </main>
-        <aside className="items-page__aside">
+        <aside
+          className={`items-page__aside ${
+            displayAsideBar ? "items-page__aside--displayed" : ""
+          }`.trim()}
+        >
           <AddNewItem itemsList={itemsList} reloadItemsList={loadItemsList} />
         </aside>
       </div>

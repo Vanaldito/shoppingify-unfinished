@@ -1,8 +1,7 @@
 .add-new-item {
   grid-area: add-new-item;
   box-sizing: border-box;
-  width: 350px;
-  display: none;
+  max-width: 100%;
 }
 
 .add-new-item__title {
@@ -49,17 +48,4 @@
 
 .add-new-item__save-button:hover {
   background-color: #e99109;
-}
-
-@media (min-width: 800px) {
-  .add-new-item {
-    padding: 30px 40px 30px 20px;
-    display: block;
-  }
-}
-
-@media (min-width: 900px) {
-  .add-new-item {
-    padding: 38px 40px 38px 20px;
-  }
 }

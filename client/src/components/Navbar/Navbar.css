@@ -42,6 +42,8 @@
   border-radius: 50%;
   background-color: #f9a109;
   position: relative;
+  border: none;
+  cursor: pointer;
 }
 
 .navbar__shopping-cart__image {

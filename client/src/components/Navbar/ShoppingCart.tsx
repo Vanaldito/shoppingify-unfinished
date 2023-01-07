@@ -1,8 +1,12 @@
 const productQuantity = 3;
 
-export default function ShoppingCart() {
+interface ShoppingCartProps {
+  toggleAsideBar: () => void;
+}
+
+export default function ShoppingCart({ toggleAsideBar }: ShoppingCartProps) {
   return (
-    <div className="navbar__shopping-cart">
+    <button className="navbar__shopping-cart" onClick={toggleAsideBar}>
       <img
         className="navbar__shopping-cart__image"
         src="/icons/shopping-cart.svg"
@@ -13,6 +17,6 @@ export default function ShoppingCart() {
       <span className="navbar__shopping-cart__product-quantity">
         {productQuantity}
       </span>
-    </div>
+    </button>
   );
 }
