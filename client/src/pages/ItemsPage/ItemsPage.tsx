@@ -3,7 +3,7 @@ import { Navbar, ProtectedRoute } from "../../components";
 import { useFetchAndLoad } from "../../hooks";
 import { ItemsList } from "../../models";
 import { getItemsList } from "../../services";
-import { AddNewItem, Item } from "./components";
+import { Item, ItemInfo } from "./components";
 import "./ItemsPage.css";
 
 export default function ItemsPage() {
@@ -68,7 +68,13 @@ export default function ItemsPage() {
             displayAsideBar ? "items-page__aside--displayed" : ""
           }`.trim()}
         >
-          <AddNewItem itemsList={itemsList} reloadItemsList={loadItemsList} />
+          {/* <AddNewItem itemsList={itemsList} reloadItemsList={loadItemsList} /> */}
+          <ItemInfo
+            category={itemsList?.[0].category ?? ""}
+            name={itemsList?.[0].items[0].name ?? ""}
+            image="https://via.placeholder.com/1"
+            note="Avocado is a special kind of item that can be added to a category and items list."
+          />
         </aside>
       </div>
     </ProtectedRoute>

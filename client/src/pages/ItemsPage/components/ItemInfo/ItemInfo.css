@@ -1,0 +1,57 @@
+.item-info__image {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  margin-bottom: 50px;
+  border-radius: 25px;
+}
+
+.item-info__properties {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  list-style: none;
+  margin-bottom: 34px;
+}
+
+.item-info__property:first-child {
+  font-size: 24px;
+}
+
+.item-info__property__label {
+  font-size: 12px;
+  margin-bottom: 10px;
+  display: block;
+  color: #646464;
+}
+
+.item-info__buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.item-info__button {
+  padding: 15px 20px;
+  border: none;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.item-info__button--add-to-list {
+  background-color: #f9a109;
+  color: #fff;
+}
+
+.item-info__button--add-to-list:hover {
+  background-color: #e99109;
+}
+
+.item-info__button--delete {
+  background-color: inherit;
+}
+
+.item-info__button--delete:hover {
+  background-color: #d3d3d3;
+}
