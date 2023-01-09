@@ -50,8 +50,11 @@ export default function ItemsPage() {
                   <h2 className="items-page__items-category">{category}</h2>
                   <ul className="items-page__items-list">
                     {items.map(item => (
-                      <li className="items-page__items-list__item" key={item}>
-                        <Item itemName={item} />
+                      <li
+                        className="items-page__items-list__item"
+                        key={item.name}
+                      >
+                        <Item itemName={item.name} />
                       </li>
                     ))}
                   </ul>

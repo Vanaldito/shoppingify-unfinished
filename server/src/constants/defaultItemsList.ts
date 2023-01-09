@@ -1,24 +1,51 @@
-const defaultItemList = [
+import { ItemsList } from "../models";
+
+const defaultItemList: ItemsList = [
   {
     category: "Fruits and vegetables",
     items: [
-      "Avocado",
-      "Banana",
-      "Pre-cooked corn 450g",
-      "Mandarin Nadorcott",
-      "Bunch of carrots 5pcs",
-      "Chicken 1kg",
-      "Piele De Sapo Melon",
-      "Watermelon",
+      {
+        name: "Avocado",
+        note: "",
+      },
+      {
+        name: "Banana",
+      },
+      {
+        name: "Pre-cooked corn 450g",
+      },
+      {
+        name: "Mandarin Nadorcott",
+      },
+      {
+        name: "Bunch of carrots 5pcs",
+      },
+      {
+        name: "Chicken 1kg",
+      },
+      {
+        name: "Piele De Sapo Melon",
+      },
+      {
+        name: "Watermelon",
+      },
     ],
   },
   {
     category: "Meat and Fish",
     items: [
-      "Chicken leg box",
-      "Chicken 1kg",
-      "Pork fillets 450g",
-      "Salmon 1kg",
+      {
+        name: "Chicken leg box",
+      },
+      {
+        name: "Chicken 1kg",
+      },
+      {
+        name: "Pork fillets 450g",
+      },
+      {
+        name: "Salmon 1kg",
+      },
     ],
   },
 ];
