@@ -1,7 +1,11 @@
+import { ItemsList } from "../models";
+
 export default function insertItemInList(
-  itemsList: { category: string; items: string[] }[],
+  itemsList: ItemsList,
   itemCategory: string,
-  itemName: string
+  itemName: string,
+  itemImage?: string,
+  itemNote?: string
 ) {
   const categoryIndex = itemsList.findIndex(
     element =>
@@ -11,7 +15,13 @@ export default function insertItemInList(
   if (categoryIndex === -1) {
     itemsList.push({
       category: itemCategory.trim(),
-      items: [itemName.trim()],
+      items: [
+        {
+          name: itemName.trim(),
+          image: itemImage?.trim(),
+          note: itemNote?.trim(),
+        },
+      ],
     });
 
     return true;
@@ -19,10 +29,14 @@ export default function insertItemInList(
 
   if (
     !itemsList[categoryIndex].items.some(
-      element => element.toLowerCase() === itemName.toLowerCase().trim()
+      element => element.name.toLowerCase() === itemName.toLowerCase().trim()
     )
   ) {
-    itemsList[categoryIndex].items.push(itemName.trim());
+    itemsList[categoryIndex].items.push({
+      name: itemName.trim(),
+      image: itemImage?.trim(),
+      note: itemNote?.trim(),
+    });
     return true;
   }
 

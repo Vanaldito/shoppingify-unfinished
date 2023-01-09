@@ -17,7 +17,7 @@ export default function addItemToItemsList({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ item: { name, category } }),
+      body: JSON.stringify({ name, category }),
       signal: controller.signal,
     }).then(res => res.json()),
     controller,

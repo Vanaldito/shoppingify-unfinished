@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getUserIdFromCookie, insertItemInList } from "../helpers";
-import { User, UserData } from "../models";
+import { ItemsList, User, UserData } from "../models";
 
 const itemsListRouter = Router();
 
@@ -62,23 +62,34 @@ itemsListRouter.post("/add", (req, res) => {
       .json({ status: 401, error: "User is not authenticated" });
   }
 
-  const { item } = req.body;
+  const { category, name, image, note } = req.body;
 
   const isValidItem =
-    Boolean(item) &&
-    typeof item === "object" &&
-    "category" in item &&
-    "name" in item &&
-    typeof item["name"] === "string" &&
-    typeof item["category"] === "string";
+    typeof category === "string" &&
+    Boolean(category.trim()) &&
+    typeof name === "string" &&
+    Boolean(name.trim());
 
   if (!isValidItem) {
-    return res
-      .status(400)
-      .json({ status: 400, error: "Please enter a valid item" });
+    return res.status(400).json({
+      status: 400,
+      error: "Please enter a valid category and name",
+    });
   }
 
-  const { name, category } = item as { name: string; category: string };
+  if (image !== undefined && (typeof image !== "string" || !image.trim())) {
+    return res.status(400).json({
+      status: 400,
+      error: "Please enter a valid image url",
+    });
+  }
+
+  if (note !== undefined && (typeof note !== "string" || !note.trim())) {
+    return res.status(400).json({
+      status: 400,
+      error: "Please enter a valid note",
+    });
+  }
 
   User.findById(userId, (err, result: UserData[]) => {
     if (err) {
@@ -92,11 +103,15 @@ itemsListRouter.post("/add", (req, res) => {
       return res.status(404).json({ status: 404, error: "User not found" });
     }
 
-    const itemsList: { category: string; items: string[] }[] = JSON.parse(
-      result[0].ItemsList
-    );
+    const itemsList: ItemsList = JSON.parse(result[0].ItemsList);
 
-    const wasInserted = insertItemInList(itemsList, category, name);
+    const wasInserted = insertItemInList(
+      itemsList,
+      category,
+      name,
+      image,
+      note
+    );
 
     if (!wasInserted) {
       return res
