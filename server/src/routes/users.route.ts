@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { Router } from "express";
 import { OkPacket } from "mysql";
-import { defaultItemList } from "../constants";
+import { defaultItemsList } from "../constants";
 import { createAuthToken, isValidEmail, isValidPassword } from "../helpers";
 import { User, UserData } from "../models";
 
@@ -44,7 +44,7 @@ usersRouter.post("/register", async (req, res) => {
   new User({
     email: email.trim(),
     password: hashedPassword,
-    itemsList: defaultItemList,
+    itemsList: defaultItemsList,
     shoppingCart: [],
   }).save((err, result) => {
     if (!err) {
