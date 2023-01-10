@@ -3,7 +3,7 @@ import { Navbar, ProtectedRoute } from "../../components";
 import { useFetchAndLoad } from "../../hooks";
 import { ItemsList } from "../../models";
 import { getItemsList } from "../../services";
-import { AddNewItem, Item, ItemInfo } from "./components";
+import { AddNewItem, ItemInfo, Items } from "./components";
 import "./ItemsPage.css";
 
 interface ItemData {
@@ -56,30 +56,14 @@ export default function ItemsPage() {
           {loading ? (
             "Loading..."
           ) : (
-            <>
-              {itemsList?.map(({ category, items }) => (
-                <section className="items-page__items-section" key={category}>
-                  <h2 className="items-page__items-category">{category}</h2>
-                  <ul className="items-page__items-list">
-                    {items.map(item => (
-                      <li
-                        className="items-page__items-list__item"
-                        key={item.name}
-                      >
-                        <Item
-                          selectItem={() => {
-                            setDisplayAsideBar(true);
-                            setAsideBarComponent("ItemInfo");
-                            setItemInfo({ category, ...item });
-                          }}
-                          itemName={item.name}
-                        />
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              ))}
-            </>
+            <Items
+              itemsList={itemsList ?? []}
+              selectItem={itemData => {
+                setDisplayAsideBar(true);
+                setAsideBarComponent("ItemInfo");
+                setItemInfo(itemData);
+              }}
+            />
           )}
         </main>
         <aside
