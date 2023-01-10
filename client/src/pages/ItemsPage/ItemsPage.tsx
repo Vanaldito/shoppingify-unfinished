@@ -13,7 +13,11 @@ interface ItemData {
   note?: string;
 }
 
+type asideBarComponent = "AddNewItem" | "ItemInfo";
+
 export default function ItemsPage() {
+  const [asideBarComponent, setAsideBarComponent] =
+    useState<asideBarComponent>("AddNewItem");
   const [displayAsideBar, setDisplayAsideBar] = useState(false);
   const [itemInfo, setItemInfo] = useState<ItemData | null>(null);
   const [itemsList, setItemsList] = useState<null | ItemsList>(null);
@@ -64,8 +68,9 @@ export default function ItemsPage() {
                       >
                         <Item
                           selectItem={() => {
-                            setItemInfo({ category, ...item });
                             setDisplayAsideBar(true);
+                            setAsideBarComponent("ItemInfo");
+                            setItemInfo({ category, ...item });
                           }}
                           itemName={item.name}
                         />
@@ -82,15 +87,16 @@ export default function ItemsPage() {
             displayAsideBar ? "items-page__aside--displayed" : ""
           }`.trim()}
         >
-          {itemInfo ? (
+          {asideBarComponent === "AddNewItem" && (
+            <AddNewItem itemsList={itemsList} reloadItemsList={loadItemsList} />
+          )}
+          {asideBarComponent === "ItemInfo" && itemInfo && (
             <ItemInfo
               category={itemInfo.category}
               name={itemInfo.name}
               image={itemInfo.image}
               note={itemInfo.note}
             />
-          ) : (
-            <AddNewItem itemsList={itemsList} reloadItemsList={loadItemsList} />
           )}
         </aside>
       </div>
