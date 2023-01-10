@@ -3,11 +3,19 @@ import { Navbar, ProtectedRoute } from "../../components";
 import { useFetchAndLoad } from "../../hooks";
 import { ItemsList } from "../../models";
 import { getItemsList } from "../../services";
-import { Item, ItemInfo } from "./components";
+import { AddNewItem, Item, ItemInfo } from "./components";
 import "./ItemsPage.css";
+
+interface ItemData {
+  category: string;
+  name: string;
+  image?: string;
+  note?: string;
+}
 
 export default function ItemsPage() {
   const [displayAsideBar, setDisplayAsideBar] = useState(false);
+  const [itemInfo, setItemInfo] = useState<ItemData | null>(null);
   const [itemsList, setItemsList] = useState<null | ItemsList>(null);
 
   const { callEndpoint, loading } = useFetchAndLoad();
@@ -54,7 +62,13 @@ export default function ItemsPage() {
                         className="items-page__items-list__item"
                         key={item.name}
                       >
-                        <Item itemName={item.name} />
+                        <Item
+                          selectItem={() => {
+                            setItemInfo({ category, ...item });
+                            setDisplayAsideBar(true);
+                          }}
+                          itemName={item.name}
+                        />
                       </li>
                     ))}
                   </ul>
@@ -68,13 +82,16 @@ export default function ItemsPage() {
             displayAsideBar ? "items-page__aside--displayed" : ""
           }`.trim()}
         >
-          {/* <AddNewItem itemsList={itemsList} reloadItemsList={loadItemsList} /> */}
-          <ItemInfo
-            category={itemsList?.[0].category ?? ""}
-            name={itemsList?.[0].items[0].name ?? ""}
-            image="https://via.placeholder.com/1"
-            note="Avocado is a special kind of item that can be added to a category and items list."
-          />
+          {itemInfo ? (
+            <ItemInfo
+              category={itemInfo.category}
+              name={itemInfo.name}
+              image={itemInfo.image}
+              note={itemInfo.note}
+            />
+          ) : (
+            <AddNewItem itemsList={itemsList} reloadItemsList={loadItemsList} />
+          )}
         </aside>
       </div>
     </ProtectedRoute>
