@@ -3,7 +3,7 @@ import { Navbar, ProtectedRoute } from "../../components";
 import { useFetchAndLoad } from "../../hooks";
 import { ItemsList } from "../../models";
 import { getItemsList } from "../../services";
-import { AddNewItem, ItemInfo, Items } from "./components";
+import { AddNewItem, ItemInfo, Items, ShoppingList } from "./components";
 import "./ItemsPage.css";
 
 interface ItemData {
@@ -13,11 +13,11 @@ interface ItemData {
   note?: string;
 }
 
-type asideBarComponent = "AddNewItem" | "ItemInfo";
+type asideBarComponent = "AddNewItem" | "ItemInfo" | "ShoppingList";
 
 export default function ItemsPage() {
   const [asideBarComponent, setAsideBarComponent] =
-    useState<asideBarComponent>("AddNewItem");
+    useState<asideBarComponent>("ShoppingList");
   const [displayAsideBar, setDisplayAsideBar] = useState(false);
   const [itemInfo, setItemInfo] = useState<ItemData | null>(null);
   const [itemsList, setItemsList] = useState<null | ItemsList>(null);
@@ -71,6 +71,7 @@ export default function ItemsPage() {
             displayAsideBar ? "items-page__aside--displayed" : ""
           }`.trim()}
         >
+          {asideBarComponent === "ShoppingList" && <ShoppingList />}
           {asideBarComponent === "AddNewItem" && (
             <AddNewItem itemsList={itemsList} reloadItemsList={loadItemsList} />
           )}
