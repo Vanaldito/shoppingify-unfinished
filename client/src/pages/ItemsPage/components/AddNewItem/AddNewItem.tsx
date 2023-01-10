@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  Button,
   FieldWithSuggestions,
   FormError,
   FormField,
@@ -101,13 +102,13 @@ export default function AddNewItem({
         </div>
         <div className="add-new-item__buttons">
           {!loading && (
-            <button className="add-new-item__cancel-button" type="button">
+            <Button variant="secondary" type="button">
               Cancel
-            </button>
+            </Button>
           )}
-          <button className="add-new-item__save-button" type="submit">
+          <Button variant="primary" type="submit">
             {loading ? "Loading..." : "Save"}
-          </button>
+          </Button>
         </div>
       </form>
     </div>

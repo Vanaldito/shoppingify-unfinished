@@ -31,28 +31,3 @@
   justify-content: center;
   gap: 20px;
 }
-
-.item-info__button {
-  padding: 15px 20px;
-  border: none;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.item-info__button--add-to-list {
-  background-color: #f9a109;
-  color: #fff;
-}
-
-.item-info__button--add-to-list:hover {
-  background-color: #e99109;
-}
-
-.item-info__button--delete {
-  background-color: inherit;
-}
-
-.item-info__button--delete:hover {
-  background-color: #d3d3d3;
-}

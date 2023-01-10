@@ -1,4 +1,5 @@
 export * from "./AuthProvider";
+export * from "./Button";
 export * from "./FormError";
 export * from "./FormField";
 export * from "./Logo";

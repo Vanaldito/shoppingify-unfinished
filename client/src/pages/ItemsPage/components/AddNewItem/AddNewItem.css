@@ -22,30 +22,3 @@
   gap: 20px;
   justify-content: center;
 }
-
-.add-new-item__save-button,
-.add-new-item__cancel-button {
-  padding: 15px 0;
-  width: 90px;
-  border: none;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.add-new-item__cancel-button {
-  background-color: inherit;
-}
-
-.add-new-item__cancel-button:hover {
-  background-color: #d3d3d3;
-}
-
-.add-new-item__save-button {
-  background-color: #f9a109;
-  color: #fff;
-}
-
-.add-new-item__save-button:hover {
-  background-color: #e99109;
-}

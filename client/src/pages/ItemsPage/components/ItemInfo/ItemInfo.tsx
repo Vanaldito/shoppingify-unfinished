@@ -1,3 +1,4 @@
+import { Button } from "../../../../components";
 import "./ItemInfo.css";
 
 interface ItemInfoProps {
@@ -35,18 +36,12 @@ export default function ItemInfo({
         )}
       </ul>
       <div className="item-info__buttons">
-        <button
-          className="item-info__button item-info__button--delete"
-          type="button"
-        >
+        <Button variant="secondary" type="button">
           Delete
-        </button>
-        <button
-          className="item-info__button item-info__button--add-to-list"
-          type="button"
-        >
-          Add to list
-        </button>
+        </Button>
+        <Button variant="primary" type="button">
+          Add to List
+        </Button>
       </div>
     </div>
   );
