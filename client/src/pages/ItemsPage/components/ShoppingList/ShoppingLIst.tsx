@@ -84,31 +84,33 @@ const shoppingList: ItemsList = [
 export default function ShoppingList() {
   return (
     <div className="shopping-list">
-      <header className="shopping-list__header">
-        <img
-          className="shopping-list__header__image"
-          src="/bottle.svg"
-          alt=""
-          width={81}
-          height={135}
-        />
-        <p>Didn&apos;t find what you need?</p>
-        <Button variant="secondary">Add Item</Button>
-      </header>
-      <h2 className="shopping-list__title">Shopping List</h2>
-      {shoppingList.map(({ category, items }) => (
-        <section key={category} className="shopping-list__section">
-          <h3 className="shopping-list__category">{category}</h3>
-          <ul className="shopping-list__items">
-            {items.map(item => (
-              <li key={item.name} className="shopping-list__item">
-                <input type="checkbox" />
-                {item.name}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
+      <div className="shopping-list__top">
+        <header className="shopping-list__header">
+          <img
+            className="shopping-list__header__image"
+            src="/bottle.svg"
+            alt=""
+            width={81}
+            height={135}
+          />
+          <p>Didn&apos;t find what you need?</p>
+          <Button variant="secondary">Add Item</Button>
+        </header>
+        <h2 className="shopping-list__title">Shopping List</h2>
+        {shoppingList.map(({ category, items }) => (
+          <section key={category} className="shopping-list__section">
+            <h3 className="shopping-list__category">{category}</h3>
+            <ul className="shopping-list__items">
+              {items.map(item => (
+                <li key={item.name} className="shopping-list__item">
+                  <input type="checkbox" />
+                  {item.name}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
       <div className="shopping-list__buttons">
         <Button variant="secondary">Cancel</Button>
         <Button variant="primary">Complete</Button>

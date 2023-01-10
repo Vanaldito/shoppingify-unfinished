@@ -2,6 +2,7 @@
   grid-area: add-new-item;
   box-sizing: border-box;
   max-width: 100%;
+  padding: 18px 20px;
 }
 
 .add-new-item__title {
@@ -21,4 +22,10 @@
   display: flex;
   gap: 20px;
   justify-content: center;
+}
+
+@media (min-width: 900px) {
+  .add-new-item {
+    padding: 38px 40px 38px 20px;
+  }
 }
