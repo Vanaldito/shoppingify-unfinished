@@ -69,50 +69,56 @@ export default function AddNewItem({
 
   return (
     <div className="add-new-item">
-      <h2 className="add-new-item__title">Add a new item</h2>
-      <form onSubmit={submitHandler} className="add-new-item__form">
-        {error && <FormError error={error} clearError={() => setError("")} />}
-        <div className="add-new-item__form-fields">
-          <FormField
-            onChange={changeHandler(setName)}
-            value={name}
-            label="Name"
-            placeholder="Enter a name"
-            required={true}
-          />
-          <FormField
-            onChange={changeHandler(setNote)}
-            value={note}
-            label="Note (optional)"
-            placeholder="Enter a note"
-          />
-          <FormField
-            onChange={changeHandler(setImage)}
-            value={image}
-            label="Image (optional)"
-            placeholder="Enter a note"
-          />
-          <FieldWithSuggestions
-            selectSuggestion={suggestion => setCategory(suggestion)}
-            suggestions={categorySuggestions}
-            onChange={changeHandler(setCategory)}
-            value={category}
-            label="Category"
-            placeholder="Enter a category"
-            required={true}
-          />
-        </div>
-        <div className="add-new-item__buttons">
-          {!loading && (
-            <Button onClick={cancel} variant="secondary" type="button">
-              Cancel
-            </Button>
-          )}
-          <Button variant="primary" type="submit">
-            {loading ? "Loading..." : "Save"}
+      <div className="add-new-item__top">
+        <h2 className="add-new-item__title">Add a new item</h2>
+        <form
+          onSubmit={submitHandler}
+          className="add-new-item__form"
+          id="add-new-item__form"
+        >
+          {error && <FormError error={error} clearError={() => setError("")} />}
+          <div className="add-new-item__form-fields">
+            <FormField
+              onChange={changeHandler(setName)}
+              value={name}
+              label="Name"
+              placeholder="Enter a name"
+              required={true}
+            />
+            <FormField
+              onChange={changeHandler(setNote)}
+              value={note}
+              label="Note (optional)"
+              placeholder="Enter a note"
+            />
+            <FormField
+              onChange={changeHandler(setImage)}
+              value={image}
+              label="Image (optional)"
+              placeholder="Enter a note"
+            />
+            <FieldWithSuggestions
+              selectSuggestion={suggestion => setCategory(suggestion)}
+              suggestions={categorySuggestions}
+              onChange={changeHandler(setCategory)}
+              value={category}
+              label="Category"
+              placeholder="Enter a category"
+              required={true}
+            />
+          </div>
+        </form>
+      </div>
+      <div className="add-new-item__buttons">
+        {!loading && (
+          <Button onClick={cancel} variant="secondary" type="button">
+            Cancel
           </Button>
-        </div>
-      </form>
+        )}
+        <Button variant="primary" type="submit" form="add-new-item__form">
+          {loading ? "Loading..." : "Save"}
+        </Button>
+      </div>
     </div>
   );
 }

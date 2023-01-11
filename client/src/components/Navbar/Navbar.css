@@ -3,6 +3,7 @@
   grid-area: nav;
   display: flex;
   flex-direction: column;
+  gap: 35px;
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
@@ -13,7 +14,7 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 65px;
+  gap: 20px;
 }
 
 .navbar__link {
@@ -60,4 +61,10 @@
   top: -5px;
   right: -5px;
   border-radius: 4px;
+}
+
+@media (min-height: 500px) {
+  .navbar__links {
+    gap: 65px;
+  }
 }
