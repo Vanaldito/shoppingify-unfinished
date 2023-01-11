@@ -8,6 +8,8 @@
   background-color: #fff0de;
   padding: 18px 20px;
   overflow: auto;
+  display: grid;
+  grid-template-rows: max-content 1fr;
 }
 
 .shopping-list__header {
@@ -59,6 +61,25 @@
   gap: 5px;
 }
 
+.shopping-list__is-empty {
+  display: flex;
+  padding-top: 20px;
+  justify-content: center;
+  position: relative;
+  min-height: 230px;
+}
+
+.shopping-list__is-empty__text {
+  position: relative;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.shopping-list__is-empty__image {
+  position: absolute;
+  bottom: -18px;
+}
+
 .shopping-list__buttons {
   display: flex;
   justify-content: center;
@@ -88,5 +109,20 @@
 @media (min-width: 900px) {
   .shopping-list__top {
     padding: 38px 40px;
+  }
+
+  .shopping-list__is-empty__image {
+    bottom: -38px;
+    z-index: 20;
+  }
+}
+
+@media (min-height: 700px) {
+  .shopping-list__is-empty {
+    align-items: center;
+  }
+
+  .shopping-list__is-empty__text {
+    top: -100px;
   }
 }

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Navbar, ProtectedRoute } from "../../components";
 import { useFetchAndLoad } from "../../hooks";
-import { ItemsList } from "../../models";
-import { getItemsList } from "../../services";
+import { ItemsList, ShoppingList as ShoppingListType } from "../../models";
+import { getItemsList, getShoppingList } from "../../services";
 import { AddNewItem, ItemInfo, Items, ShoppingList } from "./components";
 import "./ItemsPage.css";
 
@@ -21,20 +21,44 @@ export default function ItemsPage() {
   const [displayAsideBar, setDisplayAsideBar] = useState(false);
   const [itemInfo, setItemInfo] = useState<ItemData | null>(null);
   const [itemsList, setItemsList] = useState<null | ItemsList>(null);
+  const [shoppingList, setShoppingList] = useState<null | ShoppingListType>(
+    null
+  );
 
-  const { callEndpoint, loading } = useFetchAndLoad();
+  const { callEndpoint: callGetItemsListEndpoint, loading: loadingItemsList } =
+    useFetchAndLoad();
+  const {
+    callEndpoint: callGetShoppingListEndpoint,
+    loading: loadingShoppingList,
+  } = useFetchAndLoad();
 
   function loadItemsList() {
-    callEndpoint(getItemsList())
+    callGetItemsListEndpoint(getItemsList())
       .then(res => {
         if (res.data) {
           setItemsList(res.data.itemsList);
+        }
+        if (res.error) {
+          console.error(res.error);
         }
       })
       .catch(err => console.error(err));
   }
 
   useEffect(loadItemsList, []);
+
+  useEffect(() => {
+    callGetShoppingListEndpoint(getShoppingList())
+      .then(res => {
+        if (res.data) {
+          setShoppingList(res.data.shoppingList);
+        }
+        if (res.error) {
+          console.error(res.error);
+        }
+      })
+      .catch(err => console.log(err));
+  }, []);
 
   return (
     <ProtectedRoute>
@@ -53,7 +77,7 @@ export default function ItemsPage() {
             <span className="yellow-text">Shoppingify</span> allows you take
             your shopping list wherever you go
           </h1>
-          {loading ? (
+          {loadingItemsList ? (
             "Loading..."
           ) : (
             <Items
@@ -73,6 +97,8 @@ export default function ItemsPage() {
         >
           {asideBarComponent === "ShoppingList" && (
             <ShoppingList
+              shoppingList={shoppingList ?? []}
+              loading={loadingShoppingList}
               addItemHandler={() => setAsideBarComponent("AddNewItem")}
             />
           )}
