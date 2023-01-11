@@ -3,5 +3,5 @@ CREATE TABLE Users (
   Email VARCHAR(255) NOT NULL UNIQUE,
   Password VARCHAR(255) NOT NULL,
   ItemsList TEXT NOT NULL,
-  ShoppingCart TEXT NOT NULL
+  ShoppingList TEXT NOT NULL
 );

@@ -6,30 +6,30 @@ interface UserData {
   email: string;
   password: string;
   itemsList: ItemsList;
-  shoppingCart: string[];
+  shoppingList: string[];
 }
 
 export default class User {
   email: string;
   password: string;
   itemsList: ItemsList;
-  shoppingCart: string[];
+  shoppingList: string[];
 
-  constructor({ email, password, itemsList, shoppingCart }: UserData) {
+  constructor({ email, password, itemsList, shoppingList }: UserData) {
     this.email = email;
     this.password = password;
     this.itemsList = itemsList;
-    this.shoppingCart = shoppingCart;
+    this.shoppingList = shoppingList;
   }
 
   save(callback?: queryCallback) {
     db.query(
-      "INSERT INTO Users (Email, Password, ItemsList, ShoppingCart) VALUES (?, ?, ?, ?)",
+      "INSERT INTO Users (Email, Password, ItemsList, ShoppingList) VALUES (?, ?, ?, ?)",
       [
         this.email,
         this.password,
         JSON.stringify(this.itemsList),
-        JSON.stringify(this.shoppingCart),
+        JSON.stringify(this.shoppingList),
       ],
       callback
     );

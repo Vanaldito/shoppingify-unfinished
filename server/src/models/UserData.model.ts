@@ -3,5 +3,5 @@ export interface UserData {
   Email: string;
   Password: string;
   ItemsList: string;
-  ShoppingCart: string;
+  ShoppingList: string;
 }

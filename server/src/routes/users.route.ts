@@ -45,7 +45,7 @@ usersRouter.post("/register", async (req, res) => {
     email: email.trim(),
     password: hashedPassword,
     itemsList: defaultItemsList,
-    shoppingCart: [],
+    shoppingList: [],
   }).save((err, result) => {
     if (!err) {
       const authToken = createAuthToken((result as OkPacket).insertId);
