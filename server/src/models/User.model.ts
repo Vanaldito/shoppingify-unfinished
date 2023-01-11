@@ -1,19 +1,20 @@
 import { queryCallback } from "mysql";
 import db from "./database.model";
 import { ItemsList } from "./ItemsList.model";
+import { ShoppingList } from "./ShoppingLIst.model";
 
 interface UserData {
   email: string;
   password: string;
   itemsList: ItemsList;
-  shoppingList: string[];
+  shoppingList: ShoppingList;
 }
 
 export default class User {
   email: string;
   password: string;
   itemsList: ItemsList;
-  shoppingList: string[];
+  shoppingList: ShoppingList;
 
   constructor({ email, password, itemsList, shoppingList }: UserData) {
     this.email = email;
