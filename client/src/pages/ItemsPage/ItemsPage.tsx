@@ -71,9 +71,17 @@ export default function ItemsPage() {
             displayAsideBar ? "items-page__aside--displayed" : ""
           }`.trim()}
         >
-          {asideBarComponent === "ShoppingList" && <ShoppingList />}
+          {asideBarComponent === "ShoppingList" && (
+            <ShoppingList
+              addItemHandler={() => setAsideBarComponent("AddNewItem")}
+            />
+          )}
           {asideBarComponent === "AddNewItem" && (
-            <AddNewItem itemsList={itemsList} reloadItemsList={loadItemsList} />
+            <AddNewItem
+              itemsList={itemsList}
+              reloadItemsList={loadItemsList}
+              cancel={() => setAsideBarComponent("ShoppingList")}
+            />
           )}
           {asideBarComponent === "ItemInfo" && itemInfo && (
             <ItemInfo
@@ -81,6 +89,7 @@ export default function ItemsPage() {
               name={itemInfo.name}
               image={itemInfo.image}
               note={itemInfo.note}
+              getBack={() => setAsideBarComponent("ShoppingList")}
             />
           )}
         </aside>

@@ -81,7 +81,11 @@ const shoppingList: ItemsList = [
   },
 ];
 
-export default function ShoppingList() {
+interface ShoppingListProps {
+  addItemHandler: () => void;
+}
+
+export default function ShoppingList({ addItemHandler }: ShoppingListProps) {
   return (
     <div className="shopping-list">
       <div className="shopping-list__top">
@@ -94,7 +98,9 @@ export default function ShoppingList() {
             height={135}
           />
           <p>Didn&apos;t find what you need?</p>
-          <Button variant="secondary">Add Item</Button>
+          <Button variant="secondary" onClick={addItemHandler}>
+            Add Item
+          </Button>
         </header>
         <h2 className="shopping-list__title">Shopping List</h2>
         {shoppingList.map(({ category, items }) => (

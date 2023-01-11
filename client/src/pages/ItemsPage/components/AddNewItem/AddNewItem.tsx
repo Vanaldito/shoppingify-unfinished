@@ -13,11 +13,13 @@ import "./AddNewItem.css";
 interface AddNewItemProps {
   itemsList: ItemsList | null;
   reloadItemsList: () => void;
+  cancel: () => void;
 }
 
 export default function AddNewItem({
   itemsList,
   reloadItemsList,
+  cancel,
 }: AddNewItemProps) {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
@@ -102,7 +104,7 @@ export default function AddNewItem({
         </div>
         <div className="add-new-item__buttons">
           {!loading && (
-            <Button variant="secondary" type="button">
+            <Button onClick={cancel} variant="secondary" type="button">
               Cancel
             </Button>
           )}

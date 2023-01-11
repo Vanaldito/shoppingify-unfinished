@@ -6,6 +6,7 @@ interface ItemInfoProps {
   category: string;
   image?: string;
   note?: string;
+  getBack: () => void;
 }
 
 export default function ItemInfo({
@@ -13,9 +14,14 @@ export default function ItemInfo({
   category,
   image,
   note,
+  getBack,
 }: ItemInfoProps) {
   return (
     <div className="item-info">
+      <button className="item-info__get-back-button" onClick={getBack}>
+        <img src="/icons/get-back.svg" alt="" />
+        back
+      </button>
       {image && (
         <img className="item-info__image" src={image} alt="Item image" />
       )}

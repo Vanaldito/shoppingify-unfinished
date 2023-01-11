@@ -2,6 +2,23 @@
   padding: 18px 20px;
 }
 
+.item-info__get-back-button {
+  color: #f9a109;
+  padding: 5px;
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-size: 14px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.item-info__get-back-button:hover {
+  color: #e98109;
+}
+
 .item-info__image {
   width: 100%;
   aspect-ratio: 3 / 2;
