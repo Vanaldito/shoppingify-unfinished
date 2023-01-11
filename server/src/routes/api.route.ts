@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { getUserIdFromCookie } from "../helpers";
 import itemsListRouter from "./itemsList.route";
+import shoppingListRouter from "./shoppingList.route";
 import usersRouter from "./users.route";
 
 const apiRouter = Router();
@@ -9,6 +10,9 @@ apiRouter.use("/users", usersRouter);
 
 // To get and modify a user items list
 apiRouter.use("/items-list", itemsListRouter);
+
+// To get and modify a user shopping list
+apiRouter.use("/shopping-list", shoppingListRouter);
 
 apiRouter.get("/auth-status", (req, res) => {
   const authTokenCookie = req.cookies["auth-token"];
