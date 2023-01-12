@@ -43,7 +43,14 @@ export default function AddNewItem({
 
     if (!name.trim() || !category.trim()) return;
 
-    callEndpoint(addItemToItemsList({ name, category }))
+    callEndpoint(
+      addItemToItemsList({
+        name,
+        category,
+        note: note.trim() ? note.trim() : undefined,
+        image: image.trim() ? image.trim() : undefined,
+      })
+    )
       .then(res => {
         if (res.error) setError(res.error);
         else reloadItemsList();

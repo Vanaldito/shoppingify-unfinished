@@ -3,11 +3,15 @@ import { APIResponse, FetchCall } from "../models";
 interface ItemInfo {
   name: string;
   category: string;
+  note?: string;
+  image?: string;
 }
 
 export default function addItemToItemsList({
   name,
   category,
+  note,
+  image,
 }: ItemInfo): FetchCall<APIResponse<undefined>> {
   const controller = new AbortController();
 
@@ -17,7 +21,7 @@ export default function addItemToItemsList({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, category }),
+      body: JSON.stringify({ name, category, note, image }),
       signal: controller.signal,
     }).then(res => res.json()),
     controller,
