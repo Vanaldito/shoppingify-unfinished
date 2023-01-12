@@ -45,9 +45,7 @@ export default function ItemsPage() {
       .catch(err => console.error(err));
   }
 
-  useEffect(loadItemsList, []);
-
-  useEffect(() => {
+  function loadShoppingList() {
     callGetShoppingListEndpoint(getShoppingList())
       .then(res => {
         if (res.data) {
@@ -58,7 +56,10 @@ export default function ItemsPage() {
         }
       })
       .catch(err => console.log(err));
-  }, []);
+  }
+
+  useEffect(loadItemsList, []);
+  useEffect(loadShoppingList, []);
 
   return (
     <ProtectedRoute>
@@ -116,6 +117,7 @@ export default function ItemsPage() {
               image={itemInfo.image}
               note={itemInfo.note}
               getBack={() => setAsideBarComponent("ShoppingList")}
+              reloadShoppingList={loadShoppingList}
             />
           )}
         </aside>

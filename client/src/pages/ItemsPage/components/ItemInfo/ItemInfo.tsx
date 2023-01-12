@@ -1,4 +1,6 @@
 import { Button } from "../../../../components";
+import { useFetchAndLoad } from "../../../../hooks";
+import { updateItemInShoppingList } from "../../../../services";
 import "./ItemInfo.css";
 
 interface ItemInfoProps {
@@ -7,6 +9,7 @@ interface ItemInfoProps {
   image?: string;
   note?: string;
   getBack: () => void;
+  reloadShoppingList: () => void;
 }
 
 export default function ItemInfo({
@@ -15,7 +18,23 @@ export default function ItemInfo({
   image,
   note,
   getBack,
+  reloadShoppingList,
 }: ItemInfoProps) {
+  const { loading, callEndpoint } = useFetchAndLoad();
+
+  function addToList() {
+    if (loading) return;
+
+    callEndpoint(updateItemInShoppingList(category, name, 1)).then(res => {
+      if (res.error) {
+        console.error(res.error);
+      } else {
+        reloadShoppingList();
+        getBack();
+      }
+    });
+  }
+
   return (
     <div className="item-info">
       <div className="item-info__top">
@@ -44,11 +63,13 @@ export default function ItemInfo({
         </ul>
       </div>
       <div className="item-info__buttons">
-        <Button variant="secondary" type="button">
-          Delete
-        </Button>
-        <Button variant="primary" type="button">
-          Add to List
+        {!loading && (
+          <Button variant="secondary" type="button">
+            Delete
+          </Button>
+        )}
+        <Button onClick={addToList} variant="primary" type="button">
+          {loading ? "Loading..." : "Add to list"}
         </Button>
       </div>
     </div>
