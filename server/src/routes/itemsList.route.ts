@@ -1,25 +1,13 @@
 import { Router } from "express";
 import { getUserIdFromCookie, insertItemInList } from "../helpers";
+import { apiProtectedRoute } from "../middleware";
 import { ItemsList, User, UserData } from "../models";
 
 const itemsListRouter = Router();
 
-itemsListRouter.get("/", (req, res) => {
+itemsListRouter.get("/", apiProtectedRoute, (req, res) => {
   const authTokenCookie = req.cookies["auth-token"];
-
-  if (!authTokenCookie || typeof authTokenCookie !== "string") {
-    return res
-      .status(401)
-      .json({ status: 401, error: "User is not authenticated" });
-  }
-
-  const userId = getUserIdFromCookie(authTokenCookie);
-
-  if (!userId) {
-    return res
-      .status(401)
-      .json({ status: 401, error: "User is not authenticated" });
-  }
+  const userId = getUserIdFromCookie(authTokenCookie) as number;
 
   User.findById(userId, (err, result: UserData[]) => {
     if (err) {
@@ -45,22 +33,9 @@ itemsListRouter.get("/", (req, res) => {
   });
 });
 
-itemsListRouter.post("/add", (req, res) => {
+itemsListRouter.post("/add", apiProtectedRoute, (req, res) => {
   const authTokenCookie = req.cookies["auth-token"];
-
-  if (!authTokenCookie || typeof authTokenCookie !== "string") {
-    return res
-      .status(401)
-      .json({ status: 401, error: "User is not authenticated" });
-  }
-
-  const userId = getUserIdFromCookie(authTokenCookie);
-
-  if (!userId) {
-    return res
-      .status(401)
-      .json({ status: 401, error: "User is not authenticated" });
-  }
+  const userId = getUserIdFromCookie(authTokenCookie) as number;
 
   const { category, name, image, note } = req.body;
 

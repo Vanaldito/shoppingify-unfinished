@@ -1,25 +1,13 @@
 import { Router } from "express";
 import { getUserIdFromCookie } from "../helpers";
+import { apiProtectedRoute } from "../middleware";
 import { User, UserData } from "../models";
 
 const shoppingListRouter = Router();
 
-shoppingListRouter.get("/", (req, res) => {
+shoppingListRouter.get("/", apiProtectedRoute, (req, res) => {
   const authTokenCookie = req.cookies["auth-token"];
-
-  if (!authTokenCookie || typeof authTokenCookie !== "string") {
-    return res
-      .status(401)
-      .json({ status: 401, error: "User is not authenticated" });
-  }
-
-  const userId = getUserIdFromCookie(authTokenCookie);
-
-  if (!userId) {
-    return res
-      .status(401)
-      .json({ status: 401, error: "User is not authenticated" });
-  }
+  const userId = getUserIdFromCookie(authTokenCookie) as number;
 
   User.findById(userId, (err, result: UserData[]) => {
     if (err) {
