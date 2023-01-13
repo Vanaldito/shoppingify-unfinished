@@ -1,6 +1,7 @@
 import { Button } from "../../../../components";
 import { ShoppingList as ShoppingListType } from "../../../../models";
 import "./ShoppingList.css";
+import ShoppingListItem from "./ShoppingListItem";
 
 interface ShoppingListProps {
   shoppingList: ShoppingListType;
@@ -38,9 +39,8 @@ export default function ShoppingList({
                 <h3 className="shopping-list__category">{category}</h3>
                 <ul className="shopping-list__items">
                   {items.map(item => (
-                    <li key={item.name} className="shopping-list__item">
-                      <input type="checkbox" />
-                      {item.name}
+                    <li key={item.name}>
+                      <ShoppingListItem name={item.name} amount={item.amount} />
                     </li>
                   ))}
                 </ul>
