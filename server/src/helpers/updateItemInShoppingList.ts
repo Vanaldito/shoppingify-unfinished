@@ -4,12 +4,13 @@ interface ItemInfo {
   category: string;
   name: string;
   amount: number;
+  completed: boolean;
 }
 
 export default function updateItemInShoppingList(
   shoppingList: ShoppingList,
   itemsList: ItemsList,
-  { category, name, amount }: ItemInfo
+  { category, name, amount, completed }: ItemInfo
 ) {
   if (!itemIsInItemsList()) {
     return false;
@@ -26,6 +27,7 @@ export default function updateItemInShoppingList(
         {
           name: name.trim(),
           amount,
+          completed,
         },
       ],
     });
@@ -41,6 +43,7 @@ export default function updateItemInShoppingList(
     shoppingList[categoryIndex].items.push({
       name: name.trim(),
       amount,
+      completed,
     });
 
     return true;

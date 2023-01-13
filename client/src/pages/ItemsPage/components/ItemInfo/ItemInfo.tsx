@@ -25,16 +25,16 @@ export default function ItemInfo({
   function addToList() {
     if (loading) return;
 
-    callEndpoint(updateItemInShoppingList({ category, name, amount: 1 })).then(
-      res => {
-        if (res.error) {
-          console.error(res.error);
-        } else {
-          reloadShoppingList();
-          getBack();
-        }
+    callEndpoint(
+      updateItemInShoppingList({ category, name, amount: 1, completed: false })
+    ).then(res => {
+      if (res.error) {
+        console.error(res.error);
+      } else {
+        reloadShoppingList();
+        getBack();
       }
-    );
+    });
   }
 
   return (

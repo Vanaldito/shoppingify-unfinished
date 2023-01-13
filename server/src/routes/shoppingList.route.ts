@@ -37,7 +37,7 @@ shoppingListRouter.post("/update", apiProtectedRoute, (req, res) => {
   const authTokenCookie = req.cookies["auth-token"];
   const userId = getUserIdFromCookie(authTokenCookie) as number;
 
-  const { category, name, amount } = req.body;
+  const { category, name, amount, completed } = req.body;
 
   const isValidCategory =
     typeof category === "string" && Boolean(category.trim());
@@ -45,7 +45,12 @@ shoppingListRouter.post("/update", apiProtectedRoute, (req, res) => {
   const isValidAmount =
     typeof amount === "number" && !isNaN(amount) && amount >= 0;
 
-  if (!isValidCategory || !isValidName || !isValidAmount) {
+  if (
+    !isValidCategory ||
+    !isValidName ||
+    !isValidAmount ||
+    typeof completed !== "boolean"
+  ) {
     return res.status(400).json({
       status: 400,
       error: "Please enter a valid item info",
@@ -70,6 +75,7 @@ shoppingListRouter.post("/update", apiProtectedRoute, (req, res) => {
       category,
       name,
       amount: Math.round(amount),
+      completed,
     });
 
     if (!updated) {

@@ -1,9 +1,10 @@
 export type ShoppingList = {
   category: string;
-  items: ShoppingListItems[];
+  items: ShoppingListItem[];
 }[];
 
-interface ShoppingListItems {
+interface ShoppingListItem {
   name: string;
   amount: number;
+  completed: boolean;
 }

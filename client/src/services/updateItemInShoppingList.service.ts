@@ -4,12 +4,14 @@ interface ItemInfo {
   category: string;
   name: string;
   amount: number;
+  completed: boolean;
 }
 
 export default function updateItemInShoppingList({
   category,
   name,
   amount,
+  completed,
 }: ItemInfo): FetchCall<APIResponse<undefined>> {
   const controller = new AbortController();
 
@@ -19,7 +21,7 @@ export default function updateItemInShoppingList({
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ category, name, amount }),
+      body: JSON.stringify({ category, name, amount, completed }),
       signal: controller.signal,
     }).then(res => res.json()),
     controller,

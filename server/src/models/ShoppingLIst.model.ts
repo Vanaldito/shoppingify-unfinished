@@ -6,4 +6,5 @@ export type ShoppingList = {
 interface ShoppingListItem {
   name: string;
   amount: number;
+  completed: boolean;
 }
