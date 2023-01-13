@@ -1,25 +1,28 @@
 import { ItemsList } from "../models";
 
+interface ItemInfo {
+  category: string;
+  name: string;
+  image?: string;
+  note: string;
+}
+
 export default function insertItemInList(
   itemsList: ItemsList,
-  itemCategory: string,
-  itemName: string,
-  itemImage?: string,
-  itemNote?: string
+  { category, name, image, note }: ItemInfo
 ) {
   const categoryIndex = itemsList.findIndex(
-    element =>
-      element.category.toLowerCase() === itemCategory.toLowerCase().trim()
+    element => element.category.toLowerCase() === category.toLowerCase().trim()
   );
 
   if (categoryIndex === -1) {
     itemsList.push({
-      category: itemCategory.trim(),
+      category: category.trim(),
       items: [
         {
-          name: itemName.trim(),
-          image: itemImage?.trim(),
-          note: itemNote?.trim(),
+          name: name.trim(),
+          image: image?.trim(),
+          note: note?.trim(),
         },
       ],
     });
@@ -29,13 +32,13 @@ export default function insertItemInList(
 
   if (
     !itemsList[categoryIndex].items.some(
-      element => element.name.toLowerCase() === itemName.toLowerCase().trim()
+      element => element.name.toLowerCase() === name.toLowerCase().trim()
     )
   ) {
     itemsList[categoryIndex].items.push({
-      name: itemName.trim(),
-      image: itemImage?.trim(),
-      note: itemNote?.trim(),
+      name: name.trim(),
+      image: image?.trim(),
+      note: note?.trim(),
     });
     return true;
   }

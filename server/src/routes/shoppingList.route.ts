@@ -66,13 +66,11 @@ shoppingListRouter.post("/update", apiProtectedRoute, (req, res) => {
     const itemsList = JSON.parse(result[0].ItemsList);
     const shoppingList = JSON.parse(result[0].ShoppingList);
 
-    const updated = updateItemInShoppingList(
-      shoppingList,
-      itemsList,
+    const updated = updateItemInShoppingList(shoppingList, itemsList, {
       category,
       name,
-      Math.round(amount)
-    );
+      amount: Math.round(amount),
+    });
 
     if (!updated) {
       return res

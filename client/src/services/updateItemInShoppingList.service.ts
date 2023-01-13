@@ -1,10 +1,16 @@
 import { APIResponse, FetchCall } from "../models";
 
-export default function updateItemInShoppingList(
-  category: string,
-  name: string,
-  amount: number
-): FetchCall<APIResponse<undefined>> {
+interface ItemInfo {
+  category: string;
+  name: string;
+  amount: number;
+}
+
+export default function updateItemInShoppingList({
+  category,
+  name,
+  amount,
+}: ItemInfo): FetchCall<APIResponse<undefined>> {
   const controller = new AbortController();
 
   return {

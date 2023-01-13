@@ -80,13 +80,12 @@ itemsListRouter.post("/add", apiProtectedRoute, (req, res) => {
 
     const itemsList: ItemsList = JSON.parse(result[0].ItemsList);
 
-    const wasInserted = insertItemInList(
-      itemsList,
+    const wasInserted = insertItemInList(itemsList, {
       category,
       name,
       image,
-      note
-    );
+      note,
+    });
 
     if (!wasInserted) {
       return res

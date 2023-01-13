@@ -1,28 +1,31 @@
 import { ItemsList, ShoppingList } from "../models";
 
+interface ItemInfo {
+  category: string;
+  name: string;
+  amount: number;
+}
+
 export default function updateItemInShoppingList(
   shoppingList: ShoppingList,
   itemsList: ItemsList,
-  itemCategory: string,
-  itemName: string,
-  itemAmount: number
+  { category, name, amount }: ItemInfo
 ) {
   if (!itemIsInItemsList()) {
     return false;
   }
 
   const categoryIndex = shoppingList.findIndex(
-    element =>
-      element.category.toLowerCase() === itemCategory.toLowerCase().trim()
+    element => element.category.toLowerCase() === category.toLowerCase().trim()
   );
 
   if (categoryIndex === -1) {
     shoppingList.push({
-      category: itemCategory.trim(),
+      category: category.trim(),
       items: [
         {
-          name: itemName.trim(),
-          amount: itemAmount,
+          name: name.trim(),
+          amount,
         },
       ],
     });
@@ -31,26 +34,26 @@ export default function updateItemInShoppingList(
   }
 
   const itemIndex = shoppingList[categoryIndex].items.findIndex(
-    element => element.name.toLowerCase() === itemName.toLowerCase().trim()
+    element => element.name.toLowerCase() === name.toLowerCase().trim()
   );
 
   if (itemIndex === -1) {
     shoppingList[categoryIndex].items.push({
-      name: itemName.trim(),
-      amount: itemAmount,
+      name: name.trim(),
+      amount,
     });
 
     return true;
   }
 
-  shoppingList[categoryIndex].items[itemIndex].amount = itemAmount;
+  shoppingList[categoryIndex].items[itemIndex].amount = amount;
 
   return true;
 
   function itemIsInItemsList() {
     const categoryIndex = itemsList.findIndex(
       element =>
-        element.category.toLowerCase() === itemCategory.toLowerCase().trim()
+        element.category.toLowerCase() === category.toLowerCase().trim()
     );
 
     if (categoryIndex === -1) {
@@ -59,7 +62,7 @@ export default function updateItemInShoppingList(
 
     return itemsList[categoryIndex].items.some(
       element =>
-        element.name.toLocaleLowerCase() === itemName.toLocaleLowerCase().trim()
+        element.name.toLocaleLowerCase() === name.toLocaleLowerCase().trim()
     );
   }
 }
