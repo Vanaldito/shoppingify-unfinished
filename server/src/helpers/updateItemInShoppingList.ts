@@ -50,6 +50,7 @@ export default function updateItemInShoppingList(
   }
 
   shoppingList[categoryIndex].items[itemIndex].amount = amount;
+  shoppingList[categoryIndex].items[itemIndex].completed = completed;
 
   return true;
 

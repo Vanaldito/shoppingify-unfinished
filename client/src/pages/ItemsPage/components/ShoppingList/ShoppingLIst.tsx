@@ -40,7 +40,11 @@ export default function ShoppingList({
                 <ul className="shopping-list__items">
                   {items.map(item => (
                     <li key={item.name}>
-                      <ShoppingListItem name={item.name} amount={item.amount} />
+                      <ShoppingListItem
+                        name={item.name}
+                        amount={item.amount}
+                        completed={item.completed}
+                      />
                     </li>
                   ))}
                 </ul>
