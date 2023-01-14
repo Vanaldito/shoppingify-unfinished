@@ -41,6 +41,7 @@ export default function ShoppingList({
                   {items.map(item => (
                     <li key={item.name}>
                       <ShoppingListItem
+                        category={category}
                         name={item.name}
                         amount={item.amount}
                         completed={item.completed}
