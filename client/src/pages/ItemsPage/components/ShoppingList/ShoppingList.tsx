@@ -33,7 +33,9 @@ export default function ShoppingList({
         {loading && "Loading..."}
         {!loading && shoppingList.length > 0 && (
           <div>
-            <h2 className="shopping-list__title">Shopping List</h2>
+            <div>
+              <h2 className="shopping-list__title">Shopping List</h2>
+            </div>
             {shoppingList.map(({ category, items }) => (
               <section key={category} className="shopping-list__section">
                 <h3 className="shopping-list__category">{category}</h3>
