@@ -65,6 +65,7 @@ export default function ShoppingList({
                         name={item.name}
                         amount={item.amount}
                         completed={item.completed}
+                        mode={mode}
                       />
                     </li>
                   ))}

@@ -7,6 +7,7 @@ interface ShoppingLIstItemProps {
   name: string;
   amount: number;
   completed: boolean;
+  mode: "edit" | "complete";
 }
 
 export default function ShoppingListItem({
@@ -14,6 +15,7 @@ export default function ShoppingListItem({
   name,
   amount,
   completed,
+  mode,
 }: ShoppingLIstItemProps) {
   const [checked, setChecked] = useState(false);
 
@@ -44,21 +46,44 @@ export default function ShoppingListItem({
       .catch(err => console.error(err));
   }
 
+  if (mode === "complete") {
+    return (
+      <div className="shopping-list__item">
+        <div className="shopping-list__item__left">
+          <button
+            className="shopping-list__item__checkbox"
+            onClick={toggleCheck}
+          >
+            {checked && <img src="/icons/completed.svg" />}
+          </button>
+          <span
+            className={`shopping-list__item__name ${
+              checked ? "shopping-list__item__name--checked" : ""
+            }`.trim()}
+          >
+            {name}
+          </span>
+        </div>
+        <span className="shopping-list__item__amount">{amount} pcs</span>
+      </div>
+    );
+  }
+
   return (
     <div className="shopping-list__item">
       <div className="shopping-list__item__left">
-        <button className="shopping-list__item__checkbox" onClick={toggleCheck}>
-          {checked && <img src="/icons/completed.svg" />}
-        </button>
-        <span
-          className={`shopping-list__item__name ${
-            checked ? "shopping-list__item__name--checked" : ""
-          }`.trim()}
-        >
-          {name}
-        </span>
+        <span className="shopping-list__item__name">{name}</span>
       </div>
-      <span className="shopping-list__item__amount">{amount} pcs</span>
+      <div className="shopping-list__edit-item">
+        <button className="shopping-list__edit-item__delete-button">
+          <img src="/icons/delete.svg" alt="" />
+        </button>
+        <button className="shopping-list__edit-item__decrease-button">
+          &minus;
+        </button>
+        <span className="shopping-list__item__amount">{amount} pcs</span>
+        <button className="shopping-list__edit-item__increase-button">+</button>
+      </div>
     </div>
   );
 }

@@ -116,9 +116,44 @@
   padding: 8px 20px;
   border-radius: 24px;
   white-space: nowrap;
+  height: max-content;
 }
 
-.shopping-list__is-empty {
+.shopping-list__edit-item {
+  display: flex;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 12px;
+  align-items: center;
+  gap: 3px;
+}
+
+.shopping-list__edit-item__delete-button,
+.shopping-list__edit-item__decrease-button,
+.shopping-list__edit-item__increase-button {
+  padding: 13px 8px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.shopping-list__edit-item__delete-button {
+  background-color: #f9a109;
+  color: #fff;
+}
+
+.shopping-list__edit-item__delete-button:hover {
+  background-color: #e99109;
+}
+
+.shopping-list__edit-item__decrease-button,
+.shopping-list__edit-item__increase-button {
+  background-color: inherit;
+}
+
+.shopping-list__ .shopping-list__is-empty {
   display: flex;
   padding-top: 20px;
   justify-content: center;
