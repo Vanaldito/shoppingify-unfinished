@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "../../../../components";
 import { ShoppingList as ShoppingListType } from "../../../../models";
 import "./ShoppingList.css";
@@ -14,12 +15,23 @@ export default function ShoppingList({
   loading,
   addItemHandler,
 }: ShoppingListProps) {
+  const [mode, setMode] = useState<"edit" | "complete">("complete");
+
+  function toggleMode() {
+    const newMode: { edit: "complete"; complete: "edit" } = {
+      edit: "complete",
+      complete: "edit",
+    };
+
+    setMode(newMode[mode]);
+  }
+
   return (
     <div className="shopping-list">
       <div className="shopping-list__top">
-        <header className="shopping-list__header">
+        <div className="shopping-list__add-new-item">
           <img
-            className="shopping-list__header__image"
+            className="shopping-list__add-new-item__image"
             src="/bottle.svg"
             alt=""
             width={81}
@@ -29,13 +41,19 @@ export default function ShoppingList({
           <Button variant="secondary" onClick={addItemHandler}>
             Add Item
           </Button>
-        </header>
+        </div>
         {loading && "Loading..."}
         {!loading && shoppingList.length > 0 && (
           <div>
-            <div>
+            <header className="shopping-list__header">
               <h2 className="shopping-list__title">Shopping List</h2>
-            </div>
+              <button
+                className="shopping-list__toggle-mode"
+                onClick={toggleMode}
+              >
+                <img src="/icons/edit.svg" />
+              </button>
+            </header>
             {shoppingList.map(({ category, items }) => (
               <section key={category} className="shopping-list__section">
                 <h3 className="shopping-list__category">{category}</h3>
@@ -67,8 +85,13 @@ export default function ShoppingList({
         )}
       </div>
       <div className="shopping-list__buttons">
-        <Button variant="secondary">Cancel</Button>
-        <Button variant="primary">Complete</Button>
+        {mode === "complete" && (
+          <>
+            <Button variant="secondary">Cancel</Button>
+            <Button variant="primary">Complete</Button>
+          </>
+        )}
+        {mode === "edit" && <Button variant="primary">Save</Button>}
       </div>
     </div>
   );
