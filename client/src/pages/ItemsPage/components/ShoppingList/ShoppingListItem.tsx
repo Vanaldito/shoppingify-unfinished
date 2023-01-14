@@ -48,7 +48,7 @@ export default function ShoppingListItem({
     <div className="shopping-list__item">
       <div className="shopping-list__item__left">
         <button className="shopping-list__item__checkbox" onClick={toggleCheck}>
-          {checked && <img src="/public/icons/completed.svg" />}
+          {checked && <img src="/icons/completed.svg" />}
         </button>
         <span
           className={`shopping-list__item__name ${
