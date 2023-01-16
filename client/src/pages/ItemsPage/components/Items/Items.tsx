@@ -1,4 +1,4 @@
-import { ItemsList } from "../../../../models";
+import { useItemsList } from "../../../../hooks";
 import { Item } from "../Item";
 import "./Items.css";
 
@@ -10,14 +10,15 @@ interface ItemData {
 }
 
 interface ItemsProps {
-  itemsList: ItemsList;
   selectItem: (itemData: ItemData) => void;
 }
 
-export default function Items({ itemsList, selectItem }: ItemsProps) {
+export default function Items({ selectItem }: ItemsProps) {
+  const { itemsList } = useItemsList();
+
   return (
     <>
-      {itemsList.map(({ category, items }) => (
+      {(itemsList ?? []).map(({ category, items }) => (
         <section key={category}>
           <h2 className="items-page__items-category">{category}</h2>
           <ul className="items-page__items-list">

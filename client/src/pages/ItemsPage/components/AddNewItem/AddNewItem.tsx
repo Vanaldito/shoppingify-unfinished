@@ -5,22 +5,15 @@ import {
   FormError,
   FormField,
 } from "../../../../components";
-import { useFetchAndLoad } from "../../../../hooks";
-import { ItemsList } from "../../../../models";
+import { useFetchAndLoad, useItemsList } from "../../../../hooks";
 import { addItemToItemsList } from "../../../../services";
 import "./AddNewItem.css";
 
 interface AddNewItemProps {
-  itemsList: ItemsList | null;
-  reloadItemsList: () => void;
   cancel: () => void;
 }
 
-export default function AddNewItem({
-  itemsList,
-  reloadItemsList,
-  cancel,
-}: AddNewItemProps) {
+export default function AddNewItem({ cancel }: AddNewItemProps) {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [note, setNote] = useState("");
@@ -29,6 +22,8 @@ export default function AddNewItem({
   const [error, setError] = useState("");
 
   const { loading, callEndpoint } = useFetchAndLoad();
+
+  const { itemsList, requestItemsList } = useItemsList();
 
   function changeHandler(setter: (value: string) => void) {
     return (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +48,7 @@ export default function AddNewItem({
     )
       .then(res => {
         if (res.error) setError(res.error);
-        else reloadItemsList();
+        else requestItemsList();
       })
       .catch(err => console.error(err));
 
