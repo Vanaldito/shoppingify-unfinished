@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
-import { useFetchAndLoad } from "../../../../hooks";
-import { updateItemInShoppingList } from "../../../../services";
+import { useFetchAndLoad, useShoppingList } from "../../../../hooks";
+import {
+  deleteItemFromShoppingList,
+  updateItemInShoppingList,
+} from "../../../../services";
 
 interface ShoppingLIstItemProps {
   category: string;
@@ -18,6 +21,8 @@ export default function ShoppingListItem({
   mode,
 }: ShoppingLIstItemProps) {
   const [checked, setChecked] = useState(false);
+
+  const { requestShoppingList } = useShoppingList();
 
   const { loading, callEndpoint } = useFetchAndLoad();
 
@@ -44,6 +49,18 @@ export default function ShoppingListItem({
         }
       })
       .catch(err => console.error(err));
+  }
+
+  function deleteItem() {
+    if (loading) return;
+
+    callEndpoint(deleteItemFromShoppingList({ category, name })).then(res => {
+      if (res.error) {
+        console.error(res.error);
+      } else {
+        requestShoppingList();
+      }
+    });
   }
 
   if (mode === "complete") {
@@ -75,7 +92,10 @@ export default function ShoppingListItem({
         <span className="shopping-list__item__name">{name}</span>
       </div>
       <div className="shopping-list__edit-item">
-        <button className="shopping-list__edit-item__delete-button">
+        <button
+          className="shopping-list__edit-item__delete-button"
+          onClick={deleteItem}
+        >
           <img src="/icons/delete.svg" alt="" />
         </button>
         <button className="shopping-list__edit-item__decrease-button">

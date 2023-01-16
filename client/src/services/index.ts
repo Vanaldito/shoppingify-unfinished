@@ -1,4 +1,5 @@
 export { default as addItemToItemsList } from "./addItemToItemsList.service";
+export { default as deleteItemFromShoppingList } from "./deleteItemFromShoppingList.service";
 export { default as getAuthStatus } from "./getAuthStatus.service";
 export { default as getItemsList } from "./getItemsList.service";
 export { default as getShoppingList } from "./getShoppingList.service";
