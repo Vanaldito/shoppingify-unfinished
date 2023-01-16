@@ -1,5 +1,5 @@
 import { Button } from "../../../../components";
-import { useFetchAndLoad } from "../../../../hooks";
+import { useFetchAndLoad, useShoppingList } from "../../../../hooks";
 import { updateItemInShoppingList } from "../../../../services";
 import "./ItemInfo.css";
 
@@ -9,7 +9,6 @@ interface ItemInfoProps {
   image?: string;
   note?: string;
   getBack: () => void;
-  reloadShoppingList: () => void;
 }
 
 export default function ItemInfo({
@@ -18,8 +17,8 @@ export default function ItemInfo({
   image,
   note,
   getBack,
-  reloadShoppingList,
 }: ItemInfoProps) {
+  const { requestShoppingList } = useShoppingList();
   const { loading, callEndpoint } = useFetchAndLoad();
 
   function addToList() {
@@ -31,7 +30,7 @@ export default function ItemInfo({
       if (res.error) {
         console.error(res.error);
       } else {
-        reloadShoppingList();
+        requestShoppingList();
         getBack();
       }
     });

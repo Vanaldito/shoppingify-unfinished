@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Navbar, ProtectedRoute } from "../../components";
 import { useFetchAndLoad } from "../../hooks";
-import { ItemsList, ShoppingList as ShoppingListType } from "../../models";
-import { getItemsList, getShoppingList } from "../../services";
+import { ItemsList } from "../../models";
+import { getItemsList } from "../../services";
 import { AddNewItem, ItemInfo, Items, ShoppingList } from "./components";
 import "./ItemsPage.css";
 
@@ -21,16 +21,9 @@ export default function ItemsPage() {
   const [displayAsideBar, setDisplayAsideBar] = useState(false);
   const [itemInfo, setItemInfo] = useState<ItemData | null>(null);
   const [itemsList, setItemsList] = useState<null | ItemsList>(null);
-  const [shoppingList, setShoppingList] = useState<null | ShoppingListType>(
-    null
-  );
 
   const { callEndpoint: callGetItemsListEndpoint, loading: loadingItemsList } =
     useFetchAndLoad();
-  const {
-    callEndpoint: callGetShoppingListEndpoint,
-    loading: loadingShoppingList,
-  } = useFetchAndLoad();
 
   function loadItemsList() {
     callGetItemsListEndpoint(getItemsList())
@@ -45,21 +38,7 @@ export default function ItemsPage() {
       .catch(err => console.error(err));
   }
 
-  function loadShoppingList() {
-    callGetShoppingListEndpoint(getShoppingList())
-      .then(res => {
-        if (res.data) {
-          setShoppingList(res.data.shoppingList);
-        }
-        if (res.error) {
-          console.error(res.error);
-        }
-      })
-      .catch(err => console.log(err));
-  }
-
   useEffect(loadItemsList, []);
-  useEffect(loadShoppingList, []);
 
   return (
     <ProtectedRoute>
@@ -98,8 +77,6 @@ export default function ItemsPage() {
         >
           {asideBarComponent === "ShoppingList" && (
             <ShoppingList
-              shoppingList={shoppingList ?? []}
-              loading={loadingShoppingList}
               addItemHandler={() => setAsideBarComponent("AddNewItem")}
             />
           )}
@@ -117,7 +94,6 @@ export default function ItemsPage() {
               image={itemInfo.image}
               note={itemInfo.note}
               getBack={() => setAsideBarComponent("ShoppingList")}
-              reloadShoppingList={loadShoppingList}
             />
           )}
         </aside>

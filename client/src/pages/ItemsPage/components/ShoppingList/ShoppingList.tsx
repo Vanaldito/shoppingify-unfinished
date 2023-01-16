@@ -1,20 +1,15 @@
 import { useState } from "react";
 import { Button } from "../../../../components";
-import { ShoppingList as ShoppingListType } from "../../../../models";
+import { useShoppingList } from "../../../../hooks";
 import "./ShoppingList.css";
 import ShoppingListItem from "./ShoppingListItem";
 
 interface ShoppingListProps {
-  shoppingList: ShoppingListType;
-  loading: boolean;
   addItemHandler: () => void;
 }
 
-export default function ShoppingList({
-  shoppingList,
-  loading,
-  addItemHandler,
-}: ShoppingListProps) {
+export default function ShoppingList({ addItemHandler }: ShoppingListProps) {
+  const { shoppingList, loading } = useShoppingList();
   const [mode, setMode] = useState<"edit" | "complete">("complete");
 
   function toggleMode() {
@@ -43,7 +38,7 @@ export default function ShoppingList({
           </Button>
         </div>
         {loading && "Loading..."}
-        {!loading && shoppingList.length > 0 && (
+        {!loading && (shoppingList ?? []).length > 0 && (
           <div>
             <header className="shopping-list__header">
               <h2 className="shopping-list__title">Shopping List</h2>
@@ -54,7 +49,7 @@ export default function ShoppingList({
                 <img src="/icons/edit.svg" />
               </button>
             </header>
-            {shoppingList.map(({ category, items }) => (
+            {shoppingList?.map(({ category, items }) => (
               <section key={category} className="shopping-list__section">
                 <h3 className="shopping-list__category">{category}</h3>
                 <ul className="shopping-list__items">
@@ -74,7 +69,7 @@ export default function ShoppingList({
             ))}
           </div>
         )}
-        {!loading && shoppingList.length === 0 && (
+        {!loading && (shoppingList ?? []).length === 0 && (
           <div className="shopping-list__is-empty">
             <p className="shopping-list__is-empty__text">No items</p>
             <img
