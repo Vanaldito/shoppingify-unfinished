@@ -1,4 +1,5 @@
 export { default as createAuthToken } from "./createAuthToken";
+export { default as deleteItemFromItemsList } from "./deleteItemFromItemsList";
 export { default as deleteItemFromShoppingList } from "./deleteItemFromShoppingList";
 export { default as getUserIdFromCookie } from "./getUserIdFromCookie";
 export { default as insertItemInList } from "./insertItemInList";
