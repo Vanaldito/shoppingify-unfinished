@@ -22,6 +22,8 @@ export default function ShoppingListProvider({
   }, [isLogged]);
 
   function requestShoppingList() {
+    if (loading) return;
+
     callEndpoint(getShoppingList())
       .then(res => {
         if (res.data) {
