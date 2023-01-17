@@ -42,7 +42,6 @@ export default function ShoppingListProvider({
         shoppingList,
         changeShoppingList: setShoppingList,
         loading,
-        requestShoppingList,
       }}
     >
       {children}

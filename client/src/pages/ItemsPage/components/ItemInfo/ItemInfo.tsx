@@ -1,4 +1,5 @@
 import { Button } from "../../../../components";
+import { updateItemInShoppingList as updateItemInClientShoppingList } from "../../../../helpers";
 import { useFetchAndLoad, useShoppingList } from "../../../../hooks";
 import { updateItemInShoppingList } from "../../../../services";
 import "./ItemInfo.css";
@@ -18,10 +19,11 @@ export default function ItemInfo({
   note,
   getBack,
 }: ItemInfoProps) {
-  const { requestShoppingList } = useShoppingList();
+  const { shoppingList, changeShoppingList } = useShoppingList();
   const { loading, callEndpoint } = useFetchAndLoad();
 
   function addToList() {
+    if (!shoppingList) return;
     if (loading) return;
 
     callEndpoint(
@@ -30,7 +32,14 @@ export default function ItemInfo({
       if (res.error) {
         console.error(res.error);
       } else {
-        requestShoppingList();
+        const newShoppingList = [...shoppingList];
+        updateItemInClientShoppingList(newShoppingList, {
+          category,
+          name,
+          amount: 1,
+          completed: false,
+        });
+        changeShoppingList(newShoppingList);
         getBack();
       }
     });

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { deleteItemFromShoppingList as deleteItemFromClientShoppingList } from "../../../../helpers";
 import { useFetchAndLoad, useShoppingList } from "../../../../hooks";
 import {
   deleteItemFromShoppingList,
@@ -22,7 +23,7 @@ export default function ShoppingListItem({
 }: ShoppingLIstItemProps) {
   const [checked, setChecked] = useState(false);
 
-  const { requestShoppingList } = useShoppingList();
+  const { shoppingList, changeShoppingList } = useShoppingList();
 
   const { loading, callEndpoint } = useFetchAndLoad();
 
@@ -52,13 +53,16 @@ export default function ShoppingListItem({
   }
 
   function deleteItem() {
+    if (!shoppingList) return;
     if (loading) return;
 
     callEndpoint(deleteItemFromShoppingList({ category, name })).then(res => {
       if (res.error) {
         console.error(res.error);
       } else {
-        requestShoppingList();
+        const newShoppingList = [...shoppingList];
+        deleteItemFromClientShoppingList(newShoppingList, { category, name });
+        changeShoppingList(newShoppingList);
       }
     });
   }
