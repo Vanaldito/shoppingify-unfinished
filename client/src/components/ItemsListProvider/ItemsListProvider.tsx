@@ -43,7 +43,6 @@ export default function ItemsListProvider({
         itemsList,
         changeItemsList: setItemsList,
         loading,
-        requestItemsList,
       }}
     >
       {children}

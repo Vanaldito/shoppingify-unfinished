@@ -5,6 +5,7 @@ import {
   FormError,
   FormField,
 } from "../../../../components";
+import { insertItemInItemsList } from "../../../../helpers";
 import { useFetchAndLoad, useItemsList } from "../../../../hooks";
 import { addItemToItemsList } from "../../../../services";
 import "./AddNewItem.css";
@@ -23,7 +24,7 @@ export default function AddNewItem({ cancel }: AddNewItemProps) {
 
   const { loading, callEndpoint } = useFetchAndLoad();
 
-  const { itemsList, requestItemsList } = useItemsList();
+  const { itemsList, changeItemsList } = useItemsList();
 
   function changeHandler(setter: (value: string) => void) {
     return (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,6 +36,7 @@ export default function AddNewItem({ cancel }: AddNewItemProps) {
     event.preventDefault();
 
     if (loading) return;
+    if (!itemsList) return;
 
     if (!name.trim() || !category.trim()) return;
 
@@ -48,7 +50,16 @@ export default function AddNewItem({ cancel }: AddNewItemProps) {
     )
       .then(res => {
         if (res.error) setError(res.error);
-        else requestItemsList();
+        else {
+          const newItemsList = [...itemsList];
+          insertItemInItemsList(newItemsList, {
+            category,
+            name,
+            image,
+            note,
+          });
+          changeItemsList(newItemsList);
+        }
       })
       .catch(err => console.error(err));
 
