@@ -55,8 +55,8 @@ export default function AddNewItem({ cancel }: AddNewItemProps) {
           insertItemInItemsList(newItemsList, {
             category,
             name,
-            image,
-            note,
+            image: image.trim() ? image.trim() : undefined,
+            note: note.trim() ? note.trim() : undefined,
           });
           changeItemsList(newItemsList);
         }

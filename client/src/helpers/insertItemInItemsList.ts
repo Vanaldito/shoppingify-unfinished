@@ -4,7 +4,7 @@ interface ItemInfo {
   category: string;
   name: string;
   image?: string;
-  note: string;
+  note?: string;
 }
 
 export default function insertItemInItemsList(
@@ -16,7 +16,7 @@ export default function insertItemInItemsList(
   );
 
   if (categoryIndex === -1) {
-    itemsList.push({
+    return itemsList.push({
       category: category.trim(),
       items: [
         {
