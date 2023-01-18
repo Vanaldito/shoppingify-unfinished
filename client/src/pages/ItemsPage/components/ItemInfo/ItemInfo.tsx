@@ -73,6 +73,8 @@ export default function ItemInfo({
 
         changeShoppingList(newShoppingList);
         changeItemsList(newItemsList);
+
+        getBack();
       }
     });
   }
