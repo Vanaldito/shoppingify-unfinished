@@ -13,9 +13,17 @@ export default function deleteItemFromShoppingList(
     element => element.category.toLowerCase() === category.toLowerCase().trim()
   );
 
+  if (categoryIndex === -1) {
+    return;
+  }
+
   const itemIndex = shoppingList[categoryIndex].items.findIndex(
     element => element.name.toLowerCase() === name.toLowerCase().trim()
   );
+
+  if (itemIndex === -1) {
+    return;
+  }
 
   if (shoppingList[categoryIndex].items.length === 1) {
     shoppingList.splice(categoryIndex, 1);
