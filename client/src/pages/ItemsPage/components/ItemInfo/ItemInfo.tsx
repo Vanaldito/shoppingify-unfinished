@@ -1,7 +1,17 @@
 import { Button } from "../../../../components";
-import { updateItemInShoppingList as updateItemInClientShoppingList } from "../../../../helpers";
-import { useFetchAndLoad, useShoppingList } from "../../../../hooks";
-import { updateItemInShoppingList } from "../../../../services";
+import {
+  deleteItemFromList,
+  updateItemInShoppingList as updateItemInClientShoppingList,
+} from "../../../../helpers";
+import {
+  useFetchAndLoad,
+  useItemsList,
+  useShoppingList,
+} from "../../../../hooks";
+import {
+  deleteItemFromItemsList,
+  updateItemInShoppingList,
+} from "../../../../services";
 import "./ItemInfo.css";
 
 interface ItemInfoProps {
@@ -20,6 +30,7 @@ export default function ItemInfo({
   getBack,
 }: ItemInfoProps) {
   const { shoppingList, changeShoppingList } = useShoppingList();
+  const { itemsList, changeItemsList } = useItemsList();
   const { loading, callEndpoint } = useFetchAndLoad();
 
   function addToList() {
@@ -41,6 +52,27 @@ export default function ItemInfo({
         });
         changeShoppingList(newShoppingList);
         getBack();
+      }
+    });
+  }
+
+  function deleteItem() {
+    if (!shoppingList) return;
+    if (!itemsList) return;
+    if (loading) return;
+
+    callEndpoint(deleteItemFromItemsList({ category, name })).then(res => {
+      if (res.error) {
+        console.error(res.error);
+      } else {
+        const newShoppingList = [...shoppingList];
+        const newItemsList = [...itemsList];
+
+        deleteItemFromList(shoppingList, { category, name });
+        deleteItemFromList(itemsList, { category, name });
+
+        changeShoppingList(newShoppingList);
+        changeItemsList(newItemsList);
       }
     });
   }
@@ -74,7 +106,7 @@ export default function ItemInfo({
       </div>
       <div className="item-info__buttons">
         {!loading && (
-          <Button variant="secondary" type="button">
+          <Button onClick={deleteItem} variant="secondary" type="button">
             Delete
           </Button>
         )}

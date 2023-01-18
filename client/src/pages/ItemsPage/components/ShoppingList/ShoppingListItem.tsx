@@ -1,5 +1,5 @@
 import {
-  deleteItemFromShoppingList as deleteItemFromClientShoppingList,
+  deleteItemFromList as deleteItemFromClientShoppingList,
   updateItemInShoppingList as updateItemInClientShoppingList,
 } from "../../../../helpers";
 import { useFetchAndLoad, useShoppingList } from "../../../../hooks";
