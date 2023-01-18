@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
-import { deleteItemFromShoppingList as deleteItemFromClientShoppingList } from "../../../../helpers";
+import {
+  deleteItemFromShoppingList as deleteItemFromClientShoppingList,
+  updateItemInShoppingList as updateItemInClientShoppingList,
+} from "../../../../helpers";
 import { useFetchAndLoad, useShoppingList } from "../../../../hooks";
 import {
   deleteItemFromShoppingList,
@@ -21,17 +23,12 @@ export default function ShoppingListItem({
   completed,
   mode,
 }: ShoppingLIstItemProps) {
-  const [checked, setChecked] = useState(false);
-
   const { shoppingList, changeShoppingList } = useShoppingList();
 
   const { loading, callEndpoint } = useFetchAndLoad();
 
-  useEffect(() => {
-    setChecked(completed);
-  }, []);
-
   function toggleCheck() {
+    if (!shoppingList) return;
     if (loading) return;
 
     callEndpoint(
@@ -39,14 +36,21 @@ export default function ShoppingListItem({
         category,
         name,
         amount,
-        completed: !checked,
+        completed: !completed,
       })
     )
       .then(res => {
         if (res.error) {
           console.error(res.error);
         } else {
-          setChecked(!checked);
+          const newShoppingList = [...shoppingList];
+          updateItemInClientShoppingList(shoppingList, {
+            category,
+            name,
+            amount,
+            completed: !completed,
+          });
+          changeShoppingList(newShoppingList);
         }
       })
       .catch(err => console.error(err));
@@ -75,11 +79,11 @@ export default function ShoppingListItem({
             className="shopping-list__item__checkbox"
             onClick={toggleCheck}
           >
-            {checked && <img src="/icons/completed.svg" />}
+            {completed && <img src="/icons/completed.svg" />}
           </button>
           <span
             className={`shopping-list__item__name ${
-              checked ? "shopping-list__item__name--checked" : ""
+              completed ? "shopping-list__item__name--checked" : ""
             }`.trim()}
           >
             {name}
