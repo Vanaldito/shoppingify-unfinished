@@ -68,8 +68,8 @@ export default function ItemInfo({
         const newShoppingList = [...shoppingList];
         const newItemsList = [...itemsList];
 
-        deleteItemFromList(shoppingList, { category, name });
-        deleteItemFromList(itemsList, { category, name });
+        deleteItemFromList(newShoppingList, { category, name });
+        deleteItemFromList(newItemsList, { category, name });
 
         changeShoppingList(newShoppingList);
         changeItemsList(newItemsList);
