@@ -38,6 +38,7 @@
   display: none;
   width: 100%;
   box-sizing: border-box;
+  background-color: #fff;
 }
 
 .items-page__aside--displayed {
