@@ -56,6 +56,62 @@ export default function ShoppingListItem({
       .catch(err => console.error(err));
   }
 
+  function increaseAmount() {
+    if (loading) return;
+    if (!shoppingList) return;
+
+    callEndpoint(
+      updateItemInShoppingList({
+        category,
+        name,
+        amount: amount + 1,
+        completed,
+      })
+    ).then(res => {
+      if (res.error) {
+        console.error(res.error);
+      } else {
+        const newShoppingList = [...shoppingList];
+        updateItemInClientShoppingList(newShoppingList, {
+          category,
+          name,
+          amount: amount + 1,
+          completed,
+        });
+        changeShoppingList(newShoppingList);
+      }
+    });
+  }
+
+  function decreaseAmount() {
+    if (loading) return;
+    if (!shoppingList) return;
+
+    if (amount < 2) return;
+
+    callEndpoint(
+      updateItemInShoppingList({
+        category,
+        name,
+        amount: amount - 1,
+        completed,
+      })
+    ).then(res => {
+      if (res.error) {
+        console.error(res.error);
+      } else {
+        const newShoppingList = [...shoppingList];
+        updateItemInClientShoppingList(newShoppingList, {
+          category,
+          name,
+          amount: amount - 1,
+          completed,
+        });
+        changeShoppingList(newShoppingList);
+      }
+    });
+  }
+
   function deleteItem() {
     if (!shoppingList) return;
     if (loading) return;
@@ -106,11 +162,19 @@ export default function ShoppingListItem({
         >
           <img src="/icons/delete.svg" alt="" />
         </button>
-        <button className="shopping-list__edit-item__decrease-button">
+        <button
+          onClick={decreaseAmount}
+          className="shopping-list__edit-item__decrease-button"
+        >
           &minus;
         </button>
         <span className="shopping-list__item__amount">{amount} pcs</span>
-        <button className="shopping-list__edit-item__increase-button">+</button>
+        <button
+          onClick={increaseAmount}
+          className="shopping-list__edit-item__increase-button"
+        >
+          +
+        </button>
       </div>
     </div>
   );
