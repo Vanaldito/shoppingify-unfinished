@@ -43,14 +43,14 @@ export default function ItemInfo({
       if (res.error) {
         console.error(res.error);
       } else {
-        const newShoppingList = [...shoppingList];
+        const newShoppingList = [...shoppingList.list];
         updateItemInClientShoppingList(newShoppingList, {
           category,
           name,
           amount: 1,
           completed: false,
         });
-        changeShoppingList(newShoppingList);
+        changeShoppingList({ name: shoppingList.name, list: newShoppingList });
         getBack();
       }
     });
@@ -65,13 +65,13 @@ export default function ItemInfo({
       if (res.error) {
         console.error(res.error);
       } else {
-        const newShoppingList = [...shoppingList];
+        const newShoppingList = [...shoppingList.list];
         const newItemsList = [...itemsList];
 
         deleteItemFromList(newShoppingList, { category, name });
         deleteItemFromList(newItemsList, { category, name });
 
-        changeShoppingList(newShoppingList);
+        changeShoppingList({ name: shoppingList.name, list: newShoppingList });
         changeItemsList(newItemsList);
 
         getBack();

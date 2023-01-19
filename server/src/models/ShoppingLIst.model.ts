@@ -1,7 +1,10 @@
-export type ShoppingList = {
-  category: string;
-  items: ShoppingListItem[];
-}[];
+export interface ShoppingList {
+  name: string;
+  list: {
+    category: string;
+    items: ShoppingListItem[];
+  }[];
+}
 
 interface ShoppingListItem {
   name: string;

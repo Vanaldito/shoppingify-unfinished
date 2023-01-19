@@ -1,4 +1,4 @@
-import { ShoppingList } from "../models";
+import { ShoppingListList } from "../models";
 
 interface ItemInfo {
   category: string;
@@ -8,7 +8,7 @@ interface ItemInfo {
 }
 
 export default function updateItemInShoppingList(
-  shoppingList: ShoppingList,
+  shoppingList: ShoppingListList,
   { category, name, amount, completed }: ItemInfo
 ) {
   const categoryIndex = shoppingList.findIndex(

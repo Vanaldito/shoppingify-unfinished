@@ -43,14 +43,17 @@ export default function ShoppingListItem({
         if (res.error) {
           console.error(res.error);
         } else {
-          const newShoppingList = [...shoppingList];
-          updateItemInClientShoppingList(shoppingList, {
+          const newShoppingList = [...shoppingList.list];
+          updateItemInClientShoppingList(newShoppingList, {
             category,
             name,
             amount,
             completed: !completed,
           });
-          changeShoppingList(newShoppingList);
+          changeShoppingList({
+            name: shoppingList.name,
+            list: newShoppingList,
+          });
         }
       })
       .catch(err => console.error(err));
@@ -71,14 +74,14 @@ export default function ShoppingListItem({
       if (res.error) {
         console.error(res.error);
       } else {
-        const newShoppingList = [...shoppingList];
+        const newShoppingList = [...shoppingList.list];
         updateItemInClientShoppingList(newShoppingList, {
           category,
           name,
           amount: amount + 1,
           completed,
         });
-        changeShoppingList(newShoppingList);
+        changeShoppingList({ name: shoppingList.name, list: newShoppingList });
       }
     });
   }
@@ -100,14 +103,14 @@ export default function ShoppingListItem({
       if (res.error) {
         console.error(res.error);
       } else {
-        const newShoppingList = [...shoppingList];
+        const newShoppingList = [...shoppingList.list];
         updateItemInClientShoppingList(newShoppingList, {
           category,
           name,
           amount: amount - 1,
           completed,
         });
-        changeShoppingList(newShoppingList);
+        changeShoppingList({ name: shoppingList.name, list: newShoppingList });
       }
     });
   }
@@ -120,9 +123,9 @@ export default function ShoppingListItem({
       if (res.error) {
         console.error(res.error);
       } else {
-        const newShoppingList = [...shoppingList];
+        const newShoppingList = [...shoppingList.list];
         deleteItemFromClientShoppingList(newShoppingList, { category, name });
-        changeShoppingList(newShoppingList);
+        changeShoppingList({ name: shoppingList.name, list: newShoppingList });
       }
     });
   }

@@ -1,4 +1,4 @@
-import { ItemsList, ShoppingList } from "../models";
+import { ItemsList, ShoppingListList } from "../models";
 
 interface ItemInfo {
   category: string;
@@ -6,7 +6,7 @@ interface ItemInfo {
 }
 
 export default function deleteItemFromList(
-  list: ShoppingList | ItemsList,
+  list: ShoppingListList | ItemsList,
   { category, name }: ItemInfo
 ) {
   const categoryIndex = list.findIndex(

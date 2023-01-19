@@ -9,7 +9,9 @@ export default function deleteItemFromShoppingList(
   shoppingList: ShoppingList,
   { category, name }: ItemInfo
 ) {
-  const categoryIndex = shoppingList.findIndex(
+  const list = shoppingList.list;
+
+  const categoryIndex = list.findIndex(
     element => element.category.toLowerCase() === category.toLowerCase().trim()
   );
 
@@ -17,7 +19,7 @@ export default function deleteItemFromShoppingList(
     return false;
   }
 
-  const itemIndex = shoppingList[categoryIndex].items.findIndex(
+  const itemIndex = list[categoryIndex].items.findIndex(
     element => element.name.toLowerCase() === name.toLowerCase().trim()
   );
 
@@ -25,12 +27,12 @@ export default function deleteItemFromShoppingList(
     return false;
   }
 
-  if (shoppingList[categoryIndex].items.length === 1) {
-    shoppingList.splice(categoryIndex, 1);
+  if (list[categoryIndex].items.length === 1) {
+    list.splice(categoryIndex, 1);
 
     return true;
   }
 
-  shoppingList[categoryIndex].items.splice(itemIndex, 1);
+  list[categoryIndex].items.splice(itemIndex, 1);
   return true;
 }

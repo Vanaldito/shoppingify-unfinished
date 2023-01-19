@@ -16,12 +16,14 @@ export default function updateItemInShoppingList(
     return false;
   }
 
-  const categoryIndex = shoppingList.findIndex(
+  const list = shoppingList.list;
+
+  const categoryIndex = list.findIndex(
     element => element.category.toLowerCase() === category.toLowerCase().trim()
   );
 
   if (categoryIndex === -1) {
-    shoppingList.push({
+    list.push({
       category: category.trim(),
       items: [
         {
@@ -35,12 +37,12 @@ export default function updateItemInShoppingList(
     return true;
   }
 
-  const itemIndex = shoppingList[categoryIndex].items.findIndex(
+  const itemIndex = list[categoryIndex].items.findIndex(
     element => element.name.toLowerCase() === name.toLowerCase().trim()
   );
 
   if (itemIndex === -1) {
-    shoppingList[categoryIndex].items.push({
+    list[categoryIndex].items.push({
       name: name.trim(),
       amount,
       completed,
@@ -49,8 +51,8 @@ export default function updateItemInShoppingList(
     return true;
   }
 
-  shoppingList[categoryIndex].items[itemIndex].amount = amount;
-  shoppingList[categoryIndex].items[itemIndex].completed = completed;
+  list[categoryIndex].items[itemIndex].amount = amount;
+  list[categoryIndex].items[itemIndex].completed = completed;
 
   return true;
 

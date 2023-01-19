@@ -8,7 +8,7 @@ interface ShoppingListContextValue {
 }
 
 const ShoppingListContext = createContext<ShoppingListContextValue>({
-  shoppingList: [],
+  shoppingList: null,
   changeShoppingList: () => undefined,
   loading: false,
 });
