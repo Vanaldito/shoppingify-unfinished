@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, FormField } from "../../../../components";
-import { useShoppingList } from "../../../../hooks";
+import { useFetchAndLoad, useShoppingList } from "../../../../hooks";
+import { changeShoppingListName } from "../../../../services";
 import "./ShoppingList.css";
 import ShoppingListItem from "./ShoppingListItem";
 
@@ -9,9 +10,11 @@ interface ShoppingListProps {
 }
 
 export default function ShoppingList({ addItemHandler }: ShoppingListProps) {
-  const { shoppingList, loading } = useShoppingList();
+  const { shoppingList, loading, changeShoppingList } = useShoppingList();
   const [mode, setMode] = useState<"edit" | "complete">("complete");
   const [listName, setListName] = useState("");
+
+  const { loading: loadingName, callEndpoint } = useFetchAndLoad();
 
   useEffect(() => {
     if (!shoppingList) return;
@@ -26,6 +29,26 @@ export default function ShoppingList({ addItemHandler }: ShoppingListProps) {
     };
 
     setMode(newMode[mode]);
+  }
+
+  function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    setListName(event.target.value);
+  }
+
+  function submitHandler(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (loadingName) return;
+    if (!shoppingList) return;
+    if (!listName.trim()) return;
+
+    callEndpoint(changeShoppingListName(listName)).then(res => {
+      if (res.error) {
+        console.error(res.error);
+      } else {
+        changeShoppingList({ name: listName.trim(), list: shoppingList.list });
+      }
+    });
   }
 
   return (
@@ -96,10 +119,14 @@ export default function ShoppingList({ addItemHandler }: ShoppingListProps) {
         </div>
       )}
       {mode === "edit" && (
-        <form className="shopping-list__name-form">
-          <FormField value={listName} readOnly placeholder="Enter a name" />
+        <form className="shopping-list__name-form" onSubmit={submitHandler}>
+          <FormField
+            value={listName}
+            onChange={changeHandler}
+            placeholder="Enter a name"
+          />
           <Button type="submit" variant="primary">
-            Save
+            {loadingName ? "Loading..." : "Save"}
           </Button>
         </form>
       )}
