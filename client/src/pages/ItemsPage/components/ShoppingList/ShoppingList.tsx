@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Button } from "../../../../components";
+import { useEffect, useState } from "react";
+import { Button, FormField } from "../../../../components";
 import { useShoppingList } from "../../../../hooks";
 import "./ShoppingList.css";
 import ShoppingListItem from "./ShoppingListItem";
@@ -11,6 +11,13 @@ interface ShoppingListProps {
 export default function ShoppingList({ addItemHandler }: ShoppingListProps) {
   const { shoppingList, loading } = useShoppingList();
   const [mode, setMode] = useState<"edit" | "complete">("complete");
+  const [listName, setListName] = useState("");
+
+  useEffect(() => {
+    if (!shoppingList) return;
+
+    setListName(shoppingList.name);
+  }, [shoppingList, mode]);
 
   function toggleMode() {
     const newMode: { edit: "complete"; complete: "edit" } = {
@@ -82,15 +89,20 @@ export default function ShoppingList({ addItemHandler }: ShoppingListProps) {
             </div>
           )}
       </div>
-      <div className="shopping-list__buttons">
-        {mode === "complete" && (
-          <>
-            <Button variant="secondary">Cancel</Button>
-            <Button variant="primary">Complete</Button>
-          </>
-        )}
-        {mode === "edit" && <Button variant="primary">Save</Button>}
-      </div>
+      {mode === "complete" && (
+        <div className="shopping-list__buttons">
+          <Button variant="secondary">Cancel</Button>
+          <Button variant="primary">Complete</Button>
+        </div>
+      )}
+      {mode === "edit" && (
+        <form className="shopping-list__name-form">
+          <FormField value={listName} readOnly placeholder="Enter a name" />
+          <Button type="submit" variant="primary">
+            Save
+          </Button>
+        </form>
+      )}
     </div>
   );
 }

@@ -172,12 +172,13 @@
   bottom: -18px;
 }
 
-.shopping-list__buttons {
+.shopping-list__buttons,
+.shopping-list__name-form {
   display: flex;
   justify-content: center;
   gap: 20px;
   background-color: #fff;
-  padding: 20px 0;
+  padding: 20px;
 }
 
 @media (min-width: 400px) {
