@@ -37,6 +37,74 @@ shoppingListRouter.get("/", apiProtectedRoute, (req, res) => {
   });
 });
 
+shoppingListRouter.post("/cancel", apiProtectedRoute, (req, res) => {
+  const authTokenCookie = req.cookies["auth-token"];
+  const userId = getUserIdFromCookie(authTokenCookie) as number;
+
+  const { state } = req.body;
+
+  if (state !== "cancelled" && state !== "completed") {
+    return res
+      .status(400)
+      .json({ status: 400, error: "Please enter a valid state" });
+  }
+
+  User.findById(userId, (err, result: UserData[]) => {
+    if (err) {
+      return res
+        .status(500)
+        .json({ status: 500, error: "Internal server error" });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({ status: 404, error: "User not found" });
+    }
+
+    const shoppingList = JSON.parse(result[0].ShoppingList);
+
+    if (shoppingList.list.length === 0) {
+      return res
+        .status(406)
+        .json({ status: 406, error: "Shopping list is empty" });
+    }
+
+    const shoppingHistory = JSON.parse(result[0].ShoppingHistory);
+
+    User.updateShoppingHistory(
+      userId,
+      JSON.stringify(
+        shoppingHistory.concat({
+          ...shoppingList,
+          state: "cancelled",
+        })
+      ),
+      err => {
+        if (err) {
+          console.log(err);
+          return res
+            .status(500)
+            .json({ status: 500, error: "Internal server error" });
+        }
+
+        User.updateShoppingList(
+          userId,
+          JSON.stringify({ name: `default--${Date.now()}`, list: [] }),
+          err => {
+            if (err) {
+              console.log(err);
+              return res
+                .status(500)
+                .json({ status: 500, error: "Internal server error" });
+            }
+
+            res.json({ status: 200 });
+          }
+        );
+      }
+    );
+  });
+});
+
 shoppingListRouter.post("/name", apiProtectedRoute, (req, res) => {
   const authTokenCookie = req.cookies["auth-token"];
   const userId = getUserIdFromCookie(authTokenCookie) as number;

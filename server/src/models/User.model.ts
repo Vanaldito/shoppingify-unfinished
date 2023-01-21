@@ -78,4 +78,16 @@ export default class User {
       callback
     );
   }
+
+  static updateShoppingHistory(
+    userId: number,
+    shoppingHistory: string,
+    callback?: queryCallback
+  ) {
+    db.query(
+      "UPDATE Users SET ShoppingHistory = ? WHERE Id = ?",
+      [shoppingHistory, userId],
+      callback
+    );
+  }
 }
