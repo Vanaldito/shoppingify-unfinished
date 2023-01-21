@@ -1,6 +1,7 @@
 import { queryCallback } from "mysql";
 import db from "./database.model";
 import { ItemsList } from "./ItemsList.model";
+import { ShoppingHistory } from "./ShoppingHistory.model";
 import { ShoppingList } from "./ShoppingLIst.model";
 
 interface UserData {
@@ -8,6 +9,7 @@ interface UserData {
   password: string;
   itemsList: ItemsList;
   shoppingList: ShoppingList;
+  shoppingHistory: ShoppingHistory;
 }
 
 export default class User {
@@ -15,22 +17,31 @@ export default class User {
   password: string;
   itemsList: ItemsList;
   shoppingList: ShoppingList;
+  shoppingHistory: ShoppingHistory;
 
-  constructor({ email, password, itemsList, shoppingList }: UserData) {
+  constructor({
+    email,
+    password,
+    itemsList,
+    shoppingList,
+    shoppingHistory,
+  }: UserData) {
     this.email = email;
     this.password = password;
     this.itemsList = itemsList;
     this.shoppingList = shoppingList;
+    this.shoppingHistory = shoppingHistory;
   }
 
   save(callback?: queryCallback) {
     db.query(
-      "INSERT INTO Users (Email, Password, ItemsList, ShoppingList) VALUES (?, ?, ?, ?)",
+      "INSERT INTO Users (Email, Password, ItemsList, ShoppingList, ShoppingHistory) VALUES (?, ?, ?, ?, ?)",
       [
         this.email,
         this.password,
         JSON.stringify(this.itemsList),
         JSON.stringify(this.shoppingList),
+        JSON.stringify(this.shoppingHistory),
       ],
       callback
     );

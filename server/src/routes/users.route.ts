@@ -46,6 +46,7 @@ usersRouter.post("/register", async (req, res) => {
     password: hashedPassword,
     itemsList: defaultItemsList,
     shoppingList: { name: `default--${Date.now()}`, list: [] },
+    shoppingHistory: [],
   }).save((err, result) => {
     if (!err) {
       const authToken = createAuthToken((result as OkPacket).insertId);
