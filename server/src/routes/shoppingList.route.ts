@@ -86,9 +86,11 @@ shoppingListRouter.post("/cancel", apiProtectedRoute, (req, res) => {
             .json({ status: 500, error: "Internal server error" });
         }
 
+        const newShoppingListName = `default--${Date.now()}`;
+
         User.updateShoppingList(
           userId,
-          JSON.stringify({ name: `default--${Date.now()}`, list: [] }),
+          JSON.stringify({ name: newShoppingListName, list: [] }),
           err => {
             if (err) {
               console.log(err);
@@ -97,7 +99,10 @@ shoppingListRouter.post("/cancel", apiProtectedRoute, (req, res) => {
                 .json({ status: 500, error: "Internal server error" });
             }
 
-            res.json({ status: 200 });
+            res.json({
+              status: 200,
+              data: { newListName: newShoppingListName },
+            });
           }
         );
       }
