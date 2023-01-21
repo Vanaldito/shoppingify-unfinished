@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Button, FormField } from "../../../../components";
 import { useFetchAndLoad, useShoppingList } from "../../../../hooks";
-import { changeShoppingListName } from "../../../../services";
+import {
+  cancelShoppingList,
+  changeShoppingListName,
+} from "../../../../services";
 import "./ShoppingList.css";
 import ShoppingListItem from "./ShoppingListItem";
 
@@ -14,6 +17,8 @@ export default function ShoppingList({ addItemHandler }: ShoppingListProps) {
   const [mode, setMode] = useState<"edit" | "complete">("complete");
   const [listName, setListName] = useState("");
 
+  const { loading: loadingCancellation, callEndpoint: callCancelEndpoint } =
+    useFetchAndLoad();
   const { loading: loadingName, callEndpoint } = useFetchAndLoad();
 
   useEffect(() => {
@@ -29,6 +34,25 @@ export default function ShoppingList({ addItemHandler }: ShoppingListProps) {
     };
 
     setMode(newMode[mode]);
+  }
+
+  function cancelList(state: "completed" | "cancelled") {
+    if (loadingCancellation) return;
+    if (!shoppingList) return;
+
+    callCancelEndpoint(cancelShoppingList(state))
+      .then(res => {
+        if (res.error) {
+          console.error(res.error);
+        }
+        if (res.data) {
+          changeShoppingList({
+            name: res.data.newListName,
+            list: [],
+          });
+        }
+      })
+      .catch(err => console.error(err));
   }
 
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
@@ -114,8 +138,14 @@ export default function ShoppingList({ addItemHandler }: ShoppingListProps) {
       </div>
       {mode === "complete" && (
         <div className="shopping-list__buttons">
-          <Button variant="secondary">Cancel</Button>
-          <Button variant="primary">Complete</Button>
+          {!loadingCancellation && (
+            <Button onClick={() => cancelList("cancelled")} variant="secondary">
+              Cancel
+            </Button>
+          )}
+          <Button onClick={() => cancelList("completed")} variant="primary">
+            {loadingCancellation ? "Loading..." : "Complete"}
+          </Button>
         </div>
       )}
       {mode === "edit" && (
