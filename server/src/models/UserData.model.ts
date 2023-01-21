@@ -4,4 +4,5 @@ export interface UserData {
   Password: string;
   ItemsList: string;
   ShoppingList: string;
+  ShoppingHistory: string;
 }
