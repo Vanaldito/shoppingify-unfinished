@@ -1,21 +1,29 @@
 import { cleanup, render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { afterAll, describe, it, vi } from "vitest";
+import { afterEach, describe, it, vi } from "vitest";
 import App from "../../src/App";
 
-vi.mock("../../src/services", () => ({
-  getAuthStatus: () => ({
-    call: new Promise(resolve =>
-      resolve({ status: 200, data: { authenticated: false } })
-    ),
-    controller: new AbortController(),
-  }),
-}));
+vi.mock("../../src/services", async () => {
+  const current = (await vi.importActual("../../src/services")) as object;
+
+  return {
+    ...current,
+    getAuthStatus: () => ({
+      call: new Promise(resolve =>
+        resolve({ status: 200, data: { authenticated: false } })
+      ),
+      controller: new AbortController(),
+    }),
+  };
+});
 
 describe("<App />", () => {
-  afterAll(cleanup);
+  afterEach(cleanup);
+  afterEach(() => {
+    vi.clearAllMocks;
+  });
 
-  it("Should render the App component", async () => {
+  it("Should render the App component", () => {
     render(
       <MemoryRouter>
         <App />
