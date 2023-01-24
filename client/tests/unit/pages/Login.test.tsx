@@ -117,8 +117,32 @@ describe("<Login />", () => {
     const submitButton = screen.getByRole("button") as HTMLButtonElement;
     await user.click(submitButton);
 
+    await screen.findByText("Loading...");
+  });
+
+  it("Should execute the setError function when an error is obtained", async () => {
+    const user = userEvent.setup();
+
+    const setError = vi.fn();
+
+    render(
+      <MemoryRouter>
+        <Login setError={setError} />
+      </MemoryRouter>
+    );
+    const emailInput = screen.getByPlaceholderText("Email") as HTMLInputElement;
+    await user.type(emailInput, "email@example.com");
+
+    const passwordInput = screen.getByPlaceholderText(
+      "Password"
+    ) as HTMLInputElement;
+    await user.type(passwordInput, "1ValidPassword");
+
+    const submitButton = screen.getByRole("button") as HTMLButtonElement;
+    await user.click(submitButton);
+
     await waitFor(() => {
-      screen.getByText("Loading...");
+      expect(setError).toBeCalledTimes(1);
     });
   });
 });
