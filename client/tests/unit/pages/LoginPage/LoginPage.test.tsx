@@ -2,18 +2,18 @@ import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, it, vi } from "vitest";
-import { SignUpPage } from "../../../src/pages";
+import { LoginPage } from "../../../../src/pages";
 
-vi.mock("../../../src/services", async () => {
-  const actual = vi.importActual("../../../src/services") as object;
+vi.mock("../../../../src/services", async () => {
+  const actual = vi.importActual("../../../../src/services") as object;
 
   return {
     ...actual,
-    registerUser: () => ({
+    login: () => ({
       call: new Promise(resolve =>
         resolve({
-          status: 409,
-          error: "Email is already used",
+          status: 401,
+          error: "Email or password incorrect",
         })
       ),
       controller: new AbortController(),
@@ -21,26 +21,26 @@ vi.mock("../../../src/services", async () => {
   };
 });
 
-describe("<SignUpPage />", () => {
+describe("<LoginPage />", () => {
   afterEach(cleanup);
   afterEach(() => {
     vi.clearAllMocks();
   });
 
-  it("Should render the SignUpPage component", () => {
+  it("Should render the LoginPage component", () => {
     render(
       <MemoryRouter>
-        <SignUpPage />
+        <LoginPage />
       </MemoryRouter>
     );
   });
 
-  it("Should display an error message if the registration fails", async () => {
+  it("Should display an error message if the login fails", async () => {
     const user = userEvent.setup();
 
     render(
       <MemoryRouter>
-        <SignUpPage />
+        <LoginPage />
       </MemoryRouter>
     );
 
@@ -53,6 +53,6 @@ describe("<SignUpPage />", () => {
     const submitButton = screen.getByRole("button");
     await user.click(submitButton);
 
-    await screen.findByText("Email is already used");
+    await screen.findByText("Email or password incorrect");
   });
 });

@@ -2,20 +2,20 @@ import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { Login } from "../../../src/pages/LoginPage/components";
+import { SignUp } from "../../../../src/pages/SignUpPage/components";
 
-vi.mock("../../../src/services", async () => {
-  const actual = vi.importActual("../../../src/services") as object;
+vi.mock("../../../../src/services", async () => {
+  const actual = vi.importActual("../../../../src/services") as object;
 
   return {
     ...actual,
-    login: () => ({
+    registerUser: () => ({
       call: new Promise(resolve =>
         setTimeout(
           () =>
             resolve({
-              status: 401,
-              error: "Email or password incorrect",
+              status: 409,
+              error: "Email is already used",
             }),
           200
         )
@@ -25,13 +25,13 @@ vi.mock("../../../src/services", async () => {
   };
 });
 
-describe("<Login />", () => {
+describe("<SignUp />", () => {
   afterEach(cleanup);
 
-  it("Should render the Login component", () => {
+  it("Should render the SignUp component", () => {
     render(
       <MemoryRouter>
-        <Login setError={() => null} />
+        <SignUp setError={() => null} />
       </MemoryRouter>
     );
   });
@@ -39,7 +39,7 @@ describe("<Login />", () => {
   it("Should render two inputs for the password and the email", () => {
     render(
       <MemoryRouter>
-        <Login setError={() => null} />
+        <SignUp setError={() => null} />
       </MemoryRouter>
     );
 
@@ -57,7 +57,7 @@ describe("<Login />", () => {
 
     render(
       <MemoryRouter>
-        <Login setError={() => null} />
+        <SignUp setError={() => null} />
       </MemoryRouter>
     );
 
@@ -76,7 +76,7 @@ describe("<Login />", () => {
 
     render(
       <MemoryRouter>
-        <Login setError={() => null} />
+        <SignUp setError={() => null} />
       </MemoryRouter>
     );
 
@@ -103,7 +103,7 @@ describe("<Login />", () => {
 
     render(
       <MemoryRouter>
-        <Login setError={() => null} />
+        <SignUp setError={() => null} />
       </MemoryRouter>
     );
     const emailInput = screen.getByPlaceholderText("Email") as HTMLInputElement;
@@ -127,7 +127,7 @@ describe("<Login />", () => {
 
     render(
       <MemoryRouter>
-        <Login setError={setError} />
+        <SignUp setError={setError} />
       </MemoryRouter>
     );
     const emailInput = screen.getByPlaceholderText("Email") as HTMLInputElement;
