@@ -28,6 +28,14 @@ export default function insertItemInItemsList(
     });
   }
 
+  const itemIndex = itemsList[categoryIndex].items.findIndex(
+    item => item.name.toLowerCase() === name.toLowerCase().trim()
+  );
+
+  if (itemIndex !== -1) {
+    return;
+  }
+
   itemsList[categoryIndex].items.push({
     name: name.trim(),
     image: image?.trim(),
