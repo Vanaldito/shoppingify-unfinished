@@ -100,6 +100,7 @@ export default function ShoppingList({ addItemHandler }: ShoppingListProps) {
                 <button
                   className="shopping-list__toggle-mode"
                   onClick={toggleMode}
+                  data-testid="shopping-list__toggle-mode"
                 >
                   <img src="/icons/edit.svg" />
                 </button>
