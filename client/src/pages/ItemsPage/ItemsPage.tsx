@@ -54,6 +54,7 @@ export default function ItemsPage() {
             className={`items-page__aside ${
               displayAsideBar ? "items-page__aside--displayed" : ""
             }`.trim()}
+            aria-label="aside"
           >
             {asideBarComponent === "ShoppingList" && (
               <ShoppingList
